@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     2009/11/01 3:59:52                                                        
+
+     project    
+     description
+                   
+     esmasui                                                                
+     ====================================================================== -->
+<project name="project" default="default" basedir=".">
+	<description>
+            description
+    </description>
+
+	<!-- ================================= 
+          target: default              
+         ================================= -->
+	<target name="default" depends="depends" description="description">
+
+		<jar destfile="bin/backport-android-bluetooth.jar">
+			<fileset dir="bin" includes="**/backport/**/*.class" excludes="**/MainActivity*.class,**/R.class,**/R$*.class"/>
+		</jar>
+	</target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: depends                      
+         - - - - - - - - - - - - - - - - - -->
+	<target name="depends">
+	</target>
+
+</project>
