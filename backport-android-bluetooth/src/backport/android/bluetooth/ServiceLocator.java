@@ -59,7 +59,7 @@ final class ServiceLocator {
 
 		try {
 
-			return prepareService(serviceName, binderType);
+			return getServiceStubInternal(serviceName, binderType);
 		} catch (Exception e) {
 
 			Log.e("ServiceLocator", "", e);
@@ -98,7 +98,7 @@ final class ServiceLocator {
 			InvocationTargetException, SecurityException,
 			NoSuchMethodException, ClassNotFoundException {
 
-		Method method = getIBluetoothDeviceStubAsInterfaceMethod(stub);
+		Method method = getAsInterfaceMethod(stub);
 
 		return method.invoke(null, binder);
 	}
@@ -109,7 +109,7 @@ final class ServiceLocator {
 		return getClassLoader().loadClass(binderType);
 	}
 
-	private static final Method getIBluetoothDeviceStubAsInterfaceMethod(
+	private static final Method getAsInterfaceMethod(
 			Class<?> stub) throws SecurityException, NoSuchMethodException {
 
 		return getDeclaredMethod(stub, AS_INTERFACE, IBinder.class);
@@ -121,7 +121,7 @@ final class ServiceLocator {
 		return getClassLoader().loadClass(SERVICE_MANAGER);
 	}
 
-	private static final Object prepareService(String serviceName,
+	private static final Object getServiceStubInternal(String serviceName,
 			String binderType) throws Exception {
 
 		Class<?> serviceManager = getServiceManager();
