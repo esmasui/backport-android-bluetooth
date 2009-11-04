@@ -33,12 +33,10 @@
 package backport.android.bluetooth;
 
 import java.io.Closeable;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import android.bluetooth.BluetoothError;
 import android.bluetooth.RfcommSocket;
 import android.util.Log;
 

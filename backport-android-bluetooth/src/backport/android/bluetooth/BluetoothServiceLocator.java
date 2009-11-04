@@ -16,10 +16,6 @@
 
 package backport.android.bluetooth;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import android.os.IBinder;
 
 final class BluetoothServiceLocator {
 
