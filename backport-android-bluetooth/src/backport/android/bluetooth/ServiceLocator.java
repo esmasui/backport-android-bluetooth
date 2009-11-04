@@ -22,14 +22,38 @@ import java.lang.reflect.Method;
 import android.os.IBinder;
 import android.util.Log;
 
+/**
+ * システムサービスのローカルインターフェイスを取得するロケータークラス.
+ * 
+ * @author esmasui@gmail.com
+ * 
+ */
 final class ServiceLocator {
 
+	/**
+	 * サービスマネージャーのクラス名.
+	 */
 	private static final String SERVICE_MANAGER = "android.os.ServiceManager";
 
+	/**
+	 * サービス取得メソッド名.
+	 */
 	private static final String GET_SERVICE_METHOD = "getService";
 
+	/**
+	 * ローカルインターフェイス取得メソッド名.
+	 */
 	private static final String AS_INTERFACE = "asInterface";
 
+	/**
+	 * サービスのローカルインターフェイスを取得する.
+	 * 
+	 * @param serviceName
+	 *            サービス名
+	 * @param binderType
+	 *            ローカルインターフェイス・スタブのクラス名
+	 * @return サービスのローカルインターフェイス
+	 */
 	public static final synchronized Object getServiceStub(String serviceName,
 			String binderType) {
 
