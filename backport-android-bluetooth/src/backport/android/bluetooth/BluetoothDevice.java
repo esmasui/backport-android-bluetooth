@@ -173,18 +173,15 @@ public final class BluetoothDevice implements Parcelable {
 
 	public static final Creator<BluetoothDevice> CREATOR = new Creator<BluetoothDevice>() {
 
-		@Override
-		public BluetoothDevice createFromParcel(Parcel source) {
-
-			return new BluetoothDevice(source);
+		public BluetoothDevice createFromParcel(Parcel arg0) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
-		@Override
 		public BluetoothDevice[] newArray(int size) {
-
-			return new BluetoothDevice[size];
+			// TODO Auto-generated method stub
+			return null;
 		}
-
 	};
 
 	/**

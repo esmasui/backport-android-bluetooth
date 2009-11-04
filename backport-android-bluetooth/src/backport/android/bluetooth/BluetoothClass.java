@@ -167,13 +167,11 @@ public final class BluetoothClass implements Parcelable {
 	// Fields
 	public static final Creator<BluetoothClass> CREATOR = new Creator<BluetoothClass>() {
 
-		@Override
 		public BluetoothClass createFromParcel(Parcel source) {
 
 			return new BluetoothClass(source);
 		}
 
-		@Override
 		public BluetoothClass[] newArray(int size) {
 
 			return new BluetoothClass[size];
