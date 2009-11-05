@@ -172,7 +172,8 @@ public class OBEXActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		t.start();
+		//t.start();
+		startActivity(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE));
 
 		// Intent i = new Intent(Intent.ACTION_PICK, People.CONTENT_URI);
 		// Intent i = new Intent(Intent.ACTION_PICK);

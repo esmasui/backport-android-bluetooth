@@ -11,10 +11,19 @@
 		</activity>
 
 		<activity
-			android:name="backport.com.android.settings.bluetooth.RequestEnableActivity" />
-			
+			android:name="backport.com.android.settings.bluetooth.RequestEnableActivity"
+			android:theme="@style/Theme.Translucent">
+			<intent-filter>
+				<action android:name="android.bluetooth.adapter.action.REQUEST_ENABLE" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+
 		<activity
-			android:name="backport.com.android.settings.bluetooth.RequestDiscoverableActivity" />
+			android:name="backport.com.android.settings.bluetooth.RequestDiscoverableActivity">
+			<action android:name="android.bluetooth.adapter.action.REQUEST_DISCOVERABLE" />
+			<category android:name="android.intent.category.DEFAULT" />
+		</activity>
 
 	</application>
 	<uses-sdk android:minSdkVersion="3" />
