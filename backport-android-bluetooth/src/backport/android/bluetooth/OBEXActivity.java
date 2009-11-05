@@ -32,7 +32,7 @@ import android.provider.Contacts;
 import android.provider.Contacts.People;
 import android.util.Log;
 
-public class MainActivity extends Activity {
+public class OBEXActivity extends Activity {
 
 	private static final String TAG = "@MainActivity";
 
@@ -172,15 +172,15 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		// t.start();
+		t.start();
 
-		Intent i = new Intent(Intent.ACTION_PICK, People.CONTENT_URI);
+		// Intent i = new Intent(Intent.ACTION_PICK, People.CONTENT_URI);
 		// Intent i = new Intent(Intent.ACTION_PICK);
 		// i.setType("vnd.android.cursor.item/phone");
 		// i.setType("vnd.android.cursor.dir/phone");
 
 		// i.setType("image/*");
-		startActivityForResult(i, 1);
+		// startActivityForResult(i, 1);
 
 		// try {
 		//
