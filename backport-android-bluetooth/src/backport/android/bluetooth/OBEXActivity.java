@@ -23,7 +23,10 @@ import java.io.OutputStream;
 import java.util.Arrays;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -172,9 +175,22 @@ public class OBEXActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		//t.start();
+		// t.start();
 		startActivity(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE));
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
+		filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+		
+		registerReceiver(new BroadcastReceiver() {
 
+			@Override
+			public void onReceive(Context context, Intent intent) {
+		
+				Log.d(TAG, intent.toString());
+			}
+		}, filter);
+		
+		BluetoothAdapter.getDefaultAdapter().startDiscovery();
 		// Intent i = new Intent(Intent.ACTION_PICK, People.CONTENT_URI);
 		// Intent i = new Intent(Intent.ACTION_PICK);
 		// i.setType("vnd.android.cursor.item/phone");
