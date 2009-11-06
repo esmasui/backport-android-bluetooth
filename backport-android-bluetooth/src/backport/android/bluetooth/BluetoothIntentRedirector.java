@@ -10,6 +10,19 @@ import android.content.Intent;
 
 public class BluetoothIntentRedirector extends BroadcastReceiver {
 
+	public static final int BLUETOOTH_STATE_OFF = 0;
+	public static final int BLUETOOTH_STATE_ON = 2;
+	public static final int BLUETOOTH_STATE_TURNING_OFF = 3;
+	public static final int BLUETOOTH_STATE_TURNING_ON = 1;
+	public static final int BOND_BONDED = 1;
+	public static final int BOND_BONDING = 2;
+	public static final int BOND_NOT_BONDED = 0;
+	public static final int RESULT_FAILURE = -1;
+	public static final int RESULT_SUCCESS = 0;
+	public static final int SCAN_MODE_CONNECTABLE = 1;
+	public static final int SCAN_MODE_CONNECTABLE_DISCOVERABLE = 3;
+	public static final int SCAN_MODE_NONE = 0;
+
 	private static interface Converter {
 
 		boolean convertIntent(Intent src, Intent dest);
@@ -119,10 +132,29 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 			super.convertIntentInternal(src, dest);
 			int scanMode = src.getIntExtra(BluetoothIntent.SCAN_MODE,
 					BluetoothAdapter.ERROR);
+			scanMode = convertScanMode(scanMode);
 			dest.putExtra(BluetoothAdapter.EXTRA_SCAN_MODE, scanMode);
 			// previous scan mode supported since eclair.
 			dest.putExtra(BluetoothAdapter.EXTRA_PREVIOUS_SCAN_MODE,
 					BluetoothAdapter.ERROR);
+		}
+
+		private int convertScanMode(int scanMode) {
+
+			switch (scanMode) {
+
+			case SCAN_MODE_NONE:
+
+				return BluetoothAdapter.SCAN_MODE_NONE;
+			case SCAN_MODE_CONNECTABLE:
+
+				return BluetoothAdapter.SCAN_MODE_CONNECTABLE;
+			case SCAN_MODE_CONNECTABLE_DISCOVERABLE:
+
+				return BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE;
+			}
+
+			return BluetoothAdapter.ERROR;
 		}
 	}
 
@@ -147,11 +179,34 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 			super.convertIntentInternal(src, dest);
 			int state = src.getIntExtra(BluetoothIntent.BLUETOOTH_STATE,
 					BluetoothAdapter.ERROR);
+			state = convertState(state);
 			dest.putExtra(BluetoothAdapter.EXTRA_STATE, state);
 			int previousState = src.getIntExtra(
 					BluetoothIntent.BLUETOOTH_PREVIOUS_STATE,
 					BluetoothAdapter.ERROR);
+			previousState = convertState(previousState);
 			dest.putExtra(BluetoothAdapter.EXTRA_PREVIOUS_STATE, previousState);
+		}
+
+		private int convertState(int state) {
+
+			switch (state) {
+
+			case BLUETOOTH_STATE_TURNING_OFF:
+
+				return BluetoothAdapter.STATE_TURNING_OFF;
+			case BLUETOOTH_STATE_OFF:
+
+				return BluetoothAdapter.STATE_OFF;
+			case BLUETOOTH_STATE_TURNING_ON:
+
+				return BluetoothAdapter.STATE_TURNING_ON;
+			case BLUETOOTH_STATE_ON:
+
+				return BluetoothAdapter.STATE_ON;
+			}
+
+			return BluetoothAdapter.ERROR;
 		}
 	}
 
