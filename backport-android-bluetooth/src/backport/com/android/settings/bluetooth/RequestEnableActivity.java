@@ -3,6 +3,7 @@ package backport.com.android.settings.bluetooth;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import backport.android.bluetooth.BluetoothAdapter;
 import backport.android.bluetooth.R;
@@ -17,6 +18,8 @@ public class RequestEnableActivity extends RequestPermissionActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
+				WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
 		setContentView(R.layout.enable);
 
 		if (_bluetooth.isEnabled()) {

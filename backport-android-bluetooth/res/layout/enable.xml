@@ -5,12 +5,17 @@
 
 	<TextView android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:text="@string/permission_request"
-		android:textSize="20dip" android:gravity="center_horizontal" />
+		android:textSize="22dip" android:gravity="center_horizontal" />
 
 	<ImageButton android:id="@+id/button_enable"
-		android:layout_width="fill_parent" style="@style/Theme.Translucent"
-		android:layout_height="wrap_content" android:background="#f0000000"
-		android:src="@drawable/bluetooth_disable_icon128x128" android:onClick="onButtonClicked"
-		android:scaleType="center" />
+		android:background="@drawable/transparent_background" style="@style/Theme.Transparent"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:focusable="true" android:focusableInTouchMode="true"
+		android:src="@drawable/bluetooth_icon128x128" android:onClick="onButtonClicked" />
+
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="@string/enable_request"
+		android:textSize="24dip" android:gravity="center_horizontal"
+		android:onClick="onButtonClicked" />
 
 </LinearLayout>

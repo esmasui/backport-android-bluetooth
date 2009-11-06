@@ -12,7 +12,7 @@
 
 		<activity
 			android:name="backport.com.android.settings.bluetooth.RequestEnableActivity"
-			android:theme="@style/Theme.Translucent">
+			android:theme="@style/Theme.Transparent">
 			<intent-filter>
 				<action android:name="android.bluetooth.adapter.action.REQUEST_ENABLE" />
 				<category android:name="android.intent.category.DEFAULT" />
