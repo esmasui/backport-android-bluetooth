@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
+	android:layout_height="fill_parent" android:gravity="center_vertical">
+
 	<TextView android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:text="@string/permission_request" />
+		android:layout_height="wrap_content" android:text="@string/permission_request"
+		android:textSize="22dip" android:gravity="center_horizontal" />
+
+	<!--
+		<ImageButton android:background="@drawable/transparent_background"
+		style="@style/Theme.Transparent" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:focusable="true"
+		android:focusableInTouchMode="true"
+		android:src="@drawable/bluetooth_icon128x128" android:clickable="true"
+		android:onClick="onButtonClicked" />
+	-->
+
+	<Button android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="@string/discoverable_request"
+		android:textSize="24dip" android:gravity="center_horizontal"
+		android:focusable="true" android:clickable="true" android:onClick="onButtonClicked" />
+
 </LinearLayout>

@@ -1,4 +1,4 @@
-package backport.com.android.settings.bluetooth;
+package backport.android.bluetooth;
 
 import android.app.ProgressDialog;
 import android.content.Context;

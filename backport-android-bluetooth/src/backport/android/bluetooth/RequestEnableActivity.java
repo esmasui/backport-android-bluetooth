@@ -1,12 +1,9 @@
-package backport.com.android.settings.bluetooth;
+package backport.android.bluetooth;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageButton;
-import backport.android.bluetooth.BluetoothAdapter;
-import backport.android.bluetooth.R;
 
 public class RequestEnableActivity extends RequestPermissionActivity {
 
@@ -24,9 +21,6 @@ public class RequestEnableActivity extends RequestPermissionActivity {
 
 		if (_bluetooth.isEnabled()) {
 
-			// ImageButton btnEnable = (ImageButton)
-			// findViewById(R.id.button_enable);
-			// btnEnable.setImageResource(R.drawable.bluetooth_icon128x128);
 			setResult(RESULT_OK);
 			finish();
 		}
@@ -47,9 +41,6 @@ public class RequestEnableActivity extends RequestPermissionActivity {
 
 									public void run() {
 
-										ImageButton btnEnable = (ImageButton) findViewById(R.id.button_enable);
-										btnEnable
-												.setImageResource(R.drawable.bluetooth_icon128x128);
 										setResult(RESULT_OK);
 										finish();
 									}

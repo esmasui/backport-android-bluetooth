@@ -9,4 +9,6 @@
 	-->
 	<string name="enable_request">Turn on Bluetooth</string>
 	
+	<string name="discoverable_request">Make device discoverable</string>
+	
 </resources>

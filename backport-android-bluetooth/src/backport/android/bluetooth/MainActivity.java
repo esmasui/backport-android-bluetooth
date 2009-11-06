@@ -31,6 +31,13 @@ public class MainActivity extends Activity {
 		_bluetooth.disable();
 	}
 
+	public void onDiscoverableButtonClicked(View view) {
+
+		Intent enabler = new Intent(
+				BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+		startActivityForResult(enabler, REQUEST_DISCOVERABLE);
+	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
