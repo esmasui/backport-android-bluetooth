@@ -36,8 +36,11 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
+import backport.android.bluetooth.protocols.BluetoothProtocols;
+
 import android.bluetooth.BluetoothError;
 import android.bluetooth.IBluetoothDevice;
+import android.bluetooth.IBluetoothDeviceCallback;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.RemoteException;
@@ -59,8 +62,6 @@ public final class BluetoothDevice implements Parcelable {
 	private static final String TAG = BluetoothDevice.class.getSimpleName();
 
 	private static final String EMPTY = "";
-
-	private static final int PORT = 12;
 
 	/**
 	 * Broadcast Action: Indicates a low level (ACL) connection has been
@@ -236,6 +237,8 @@ public final class BluetoothDevice implements Parcelable {
 	 */
 	public static final String EXTRA_RSSI = "android.bluetooth.device.extra.RSSI";
 
+	private final Object lock = new Object();
+
 	public static byte[] convertPinToBytes(String pin) {
 
 		if (pin == null) {
@@ -301,7 +304,80 @@ public final class BluetoothDevice implements Parcelable {
 	public BluetoothSocket createRfcommSocketToServiceRecord(UUID uuid)
 			throws IOException {
 
-		return BluetoothSocket.createRfcommSocket(mAddress, PORT);
+		IBluetoothDevice bluetooth = (IBluetoothDevice) BluetoothServiceLocator
+				.getBluetoothService();
+		int uuid16 = BluetoothProtocols.toUUID16(uuid);
+		final HardReference<BluetoothSocket> ref = HardReference.create();
+		final HardReference<IOException> err = HardReference.create();
+
+		try {
+
+			bluetooth.getRemoteServiceChannel(mAddress, uuid16,
+					new IBluetoothDeviceCallback.Stub() {
+
+						@Override
+						public void onGetRemoteServiceChannelResult(
+								String address, int channel)
+								throws RemoteException {
+
+							Log.d(TAG, "onGetRemoteServiceChannelResult - "
+									+ address + " - " + channel);
+
+							if (channel < 0) {
+
+								synchronized (lock) {
+
+									lock.notify();
+								}
+
+								err.put(new IOException(Integer
+										.toString(channel)));
+							}
+
+							try {
+
+								BluetoothSocket socket = BluetoothSocket
+										.createRfcommSocket(mAddress, channel);
+
+								ref.put(socket);
+							} catch (IOException e) {
+
+								err.put(e);
+
+								Log.e(TAG, "", e);
+							} finally {
+
+								synchronized (lock) {
+
+									lock.notify();
+								}
+							}
+						}
+					});
+		} catch (RemoteException e) {
+
+			Log.e(TAG, "", e);
+
+			return null;
+		}
+
+		synchronized (lock) {
+
+			try {
+
+				lock.wait();
+			} catch (InterruptedException e) {
+
+				// got awake.
+			}
+		}
+
+		if (err.hasValue()) {
+
+			throw err.get();
+		}
+
+		return ref.get();
 	}
 
 	/**
@@ -478,7 +554,7 @@ public final class BluetoothDevice implements Parcelable {
 
 	// Methods No documentation.
 
-	public boolean cancelBondProcess() {
+	boolean cancelBondProcess() {
 
 		try {
 
@@ -491,12 +567,12 @@ public final class BluetoothDevice implements Parcelable {
 		}
 	}
 
-	public boolean cancelPairingUserInput() {
+	boolean cancelPairingUserInput() {
 
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean createBond() {
+	boolean createBond() {
 
 		try {
 			return getBluetoothService().createBond(mAddress);
@@ -508,23 +584,22 @@ public final class BluetoothDevice implements Parcelable {
 		}
 	}
 
-	public BluetoothSocket createInsecureRfcommSocket(int port)
-			throws IOException {
+	BluetoothSocket createInsecureRfcommSocket(int port) throws IOException {
 
 		return BluetoothSocket.createInsecureRfcommSocket(mAddress, port);
 	}
 
-	public BluetoothSocket createRfcommSocket(int port) throws IOException {
+	BluetoothSocket createRfcommSocket(int port) throws IOException {
 
 		return BluetoothSocket.createRfcommSocket(mAddress, port);
 	}
 
-	public BluetoothSocket createScoSocket() throws IOException {
+	BluetoothSocket createScoSocket() throws IOException {
 
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean fetchUuidsWithSdp() {
+	boolean fetchUuidsWithSdp() {
 
 		throw new UnsupportedOperationException();
 	}
@@ -534,12 +609,12 @@ public final class BluetoothDevice implements Parcelable {
 	// throw new UnsupportedOperationException();
 	// }
 
-	public boolean getTrustState() {
+	boolean getTrustState() {
 
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean removeBond() {
+	boolean removeBond() {
 
 		try {
 
@@ -557,17 +632,17 @@ public final class BluetoothDevice implements Parcelable {
 	// throw new UnsupportedOperationException();
 	// }
 
-	public boolean setPairingConfirmation(boolean pairingConfirmation) {
+	boolean setPairingConfirmation(boolean pairingConfirmation) {
 
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean setPasskey(int passKey) {
+	boolean setPasskey(int passKey) {
 
 		throw new UnsupportedOperationException();
 	}
 
-	public boolean setPin(byte[] pin) {
+	boolean setPin(byte[] pin) {
 
 		try {
 
@@ -580,12 +655,12 @@ public final class BluetoothDevice implements Parcelable {
 		}
 	}
 
-	public boolean setTrust(boolean trust) {
+	boolean setTrust(boolean trust) {
 
 		throw new UnsupportedOperationException();
 	}
 
-	private static IBluetoothDevice getBluetoothService() {
+	private static final IBluetoothDevice getBluetoothService() {
 
 		return (IBluetoothDevice) BluetoothServiceLocator.getBluetoothService();
 	}

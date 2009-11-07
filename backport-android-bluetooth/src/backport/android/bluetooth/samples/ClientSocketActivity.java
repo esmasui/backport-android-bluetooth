@@ -1,31 +1,30 @@
 package backport.android.bluetooth.samples;
 
+import java.io.IOException;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
 import backport.android.bluetooth.BluetoothAdapter;
 import backport.android.bluetooth.BluetoothDevice;
+import backport.android.bluetooth.BluetoothSocket;
 import backport.android.bluetooth.R;
+import backport.android.bluetooth.protocols.BluetoothProtocols;
 
 public class ClientSocketActivity extends Activity {
+
+	private static final String TAG = ClientSocketActivity.class
+			.getSimpleName();
 
 	private static final int REQUEST_DISCOVERY = 0x1;;
 
 	private Handler _handler = new Handler();
 
 	private BluetoothAdapter _bluetooth = BluetoothAdapter.getDefaultAdapter();
-
-	private Runnable _connectionWorker = new Runnable() {
-
-		@Override
-		public void run() {
-
-			connect();
-		}
-	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +60,46 @@ public class ClientSocketActivity extends Activity {
 			return;
 		}
 
-		BluetoothDevice device = data
+		final BluetoothDevice device = data
 				.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
-		Toast.makeText(this, device.getName(), Toast.LENGTH_SHORT).show();
+		new Thread() {
+
+			public void run() {
+
+				connect(device);
+			};
+		}.start();
 	}
 
-	protected void connect() {
+	protected void connect(BluetoothDevice device) {
 
+		BluetoothSocket socket = null;
+
+		try {
+
+			// socket = device
+			// .createRfcommSocketToServiceRecord(BluetoothProtocols.OBEX_OBJECT_PUSH_PROTOCOL_UUID);
+			socket = device
+					.createRfcommSocketToServiceRecord(BluetoothProtocols.RFCOMM_PROTOCOL_UUID);
+			socket.connect();
+			//socket.
+
+		} catch (IOException e) {
+
+			Log.e(TAG, "", e);
+		} finally {
+
+			if (socket != null) {
+
+				try {
+
+					socket.close();
+				} catch (IOException e) {
+
+					Log.e(TAG, "", e);
+				}
+			}
+		}
 	}
 }

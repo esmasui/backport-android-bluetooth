@@ -99,7 +99,7 @@ public class DiscoveryActivity extends ListActivity {
 				BluetoothDevice.ACTION_FOUND);
 		registerReceiver(_foundReceiver, foundFilter);
 
-		ActivityUtils.indeterminate(DiscoveryActivity.this, _handler,
+		SamplesUtils.indeterminate(DiscoveryActivity.this, _handler,
 				"Scanning...", _discoveryWorkder, new OnDismissListener() {
 
 					@Override

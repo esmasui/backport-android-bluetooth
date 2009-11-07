@@ -21,7 +21,7 @@ import android.content.Context;
 import android.content.DialogInterface.OnDismissListener;
 import android.os.Handler;
 
-abstract class ActivityUtils {
+abstract class SamplesUtils {
 
 	public static void indeterminate(Context context, Handler handler,
 			String message, final Runnable runnable,

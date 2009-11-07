@@ -74,8 +74,8 @@ public final class BluetoothSocket implements Closeable {
 	 *             On error, for example Bluetooth not available, or
 	 *             insufficient permissions.
 	 */
-	public static BluetoothSocket createInsecureRfcommSocket(String address,
-			int port) throws IOException {
+	static BluetoothSocket createInsecureRfcommSocket(String address, int port)
+			throws IOException {
 		return new BluetoothSocket(-1, false, false, address, port);
 	}
 
@@ -94,7 +94,7 @@ public final class BluetoothSocket implements Closeable {
 	 *             on error, for example Bluetooth not available, or
 	 *             insufficient permissions.
 	 */
-	public static BluetoothSocket createRfcommSocket(String address, int port)
+	static BluetoothSocket createRfcommSocket(String address, int port)
 			throws IOException {
 		return new BluetoothSocket(-1, true, true, address, port);
 	}
@@ -233,6 +233,8 @@ public final class BluetoothSocket implements Closeable {
 
 			Log.e(TAG, EMPTY, e);
 		}
+
+		destroyNative();
 	}
 
 	/**
@@ -297,7 +299,7 @@ public final class BluetoothSocket implements Closeable {
 	 * @return Bluetooth address, or null if this socket has not yet attempted
 	 *         or established a connection.
 	 */
-	public String getAddress() {
+	String getAddress() {
 		return mAddress;
 	}
 
@@ -361,4 +363,14 @@ public final class BluetoothSocket implements Closeable {
 	// /* package */native int readNative();
 
 	// /* package */native void writeNative(int data);
+
+	/**
+	 * Get the remote device this socket is connecting, or connected, to.
+	 * 
+	 * @return remote device
+	 */
+	public BluetoothDevice getRemoteDevice() {
+
+		return BluetoothAdapter.getDefaultAdapter().getRemoteDevice(mAddress);
+	}
 }
