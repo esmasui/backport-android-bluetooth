@@ -38,6 +38,8 @@
 				<action
 					android:name="android.bluetooth.intent.action.REMOTE_DEVICE_DISCONNECT_REQUESTED" />
 				<action android:name="android.bluetooth.intent.action.BOND_STATE_CHANGED" />
+				<action android:name="android.bluetooth.intent.action.PAIRING_REQUEST" />
+				<action android:name="android.bluetooth.intent.action.PAIRING_CANCEL" />
 				<action
 					android:name="android.bluetooth.intent.action.REMOTE_DEVICE_CLASS_UPDATED" />
 				<action android:name="android.bluetooth.intent.action.REMOTE_DEVICE_FOUND" />

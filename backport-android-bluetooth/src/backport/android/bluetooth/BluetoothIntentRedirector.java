@@ -366,6 +366,63 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 		}
 	}
 
+
+	private static final class BondStateChangedBondingConverter extends ConverterTemplate {
+
+		@Override
+		protected boolean hasResponsibility(String action) {
+
+			return action
+					.equals(BluetoothIntent.PAIRING_REQUEST_ACTION);
+		}
+
+		@Override
+		protected String getAction() {
+
+			return BluetoothDevice.ACTION_BOND_STATE_CHANGED;
+		}
+
+		@Override
+		protected void convertIntentInternal(Intent src, Intent dest) {
+
+			super.convertIntentInternal(src, dest);
+			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
+			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
+					.getRemoteDevice(address);
+			dest.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
+			dest.putExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.BOND_BONDING);
+			dest.putExtra(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE, BluetoothDevice.BOND_NONE);
+		}
+	}
+
+	private static final class BondStateChangedBondNoneConverter extends ConverterTemplate {
+
+		@Override
+		protected boolean hasResponsibility(String action) {
+
+			return action
+					.equals(BluetoothIntent.PAIRING_CANCEL_ACTION);
+		}
+
+		@Override
+		protected String getAction() {
+
+			return BluetoothDevice.ACTION_BOND_STATE_CHANGED;
+		}
+
+		@Override
+		protected void convertIntentInternal(Intent src, Intent dest) {
+
+			super.convertIntentInternal(src, dest);
+			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
+			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
+					.getRemoteDevice(address);
+			dest.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
+			dest.putExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.BOND_NONE);
+			dest.putExtra(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE, BluetoothDevice.BOND_BONDING);
+		}
+	}
+
 	private static final class ClassChangedConverter extends ConverterTemplate {
 
 		@Override
@@ -470,6 +527,8 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 		temp.add(new AclDisconnectedConverter());
 		temp.add(new AclDisconnectRequestedConverter());
 		temp.add(new BondStateChangedConverter());
+		temp.add(new BondStateChangedBondingConverter());
+		temp.add(new BondStateChangedBondNoneConverter());
 		temp.add(new ClassChangedConverter());
 		temp.add(new FoundConverter());
 		temp.add(new NameChangedConverter());
