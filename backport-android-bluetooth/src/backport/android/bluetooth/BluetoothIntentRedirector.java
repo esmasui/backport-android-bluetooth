@@ -23,8 +23,12 @@ import android.bluetooth.BluetoothIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 public class BluetoothIntentRedirector extends BroadcastReceiver {
+
+	private static final String TAG = BluetoothIntentRedirector.class
+			.getSimpleName();
 
 	public static final int BLUETOOTH_STATE_OFF = 0;
 	public static final int BLUETOOTH_STATE_ON = 2;
@@ -38,6 +42,9 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 	public static final int SCAN_MODE_CONNECTABLE = 1;
 	public static final int SCAN_MODE_CONNECTABLE_DISCOVERABLE = 3;
 	public static final int SCAN_MODE_NONE = 0;
+	// private static final String BLUETOOTH_ADMIN_PERM =
+	// android.Manifest.permission.BLUETOOTH_ADMIN;
+	private static final String BLUETOOTH_PERM = android.Manifest.permission.BLUETOOTH;
 
 	private static interface Converter {
 
@@ -473,6 +480,8 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 
+		Log.d(TAG, "receive:" + intent.toString());
+
 		Intent convertedIntent = new Intent();
 
 		for (int i = 0, size = CONVERTERS.length; i < size; ++i) {
@@ -483,7 +492,9 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 			if (converted) {
 
-				context.sendBroadcast(convertedIntent);
+				context.sendBroadcast(convertedIntent, BLUETOOTH_PERM);
+
+				Log.d(TAG, "redirect:" + convertedIntent.toString());
 
 				return;
 			}
