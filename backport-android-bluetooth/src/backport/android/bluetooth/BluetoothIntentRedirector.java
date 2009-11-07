@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2009, backport-android-bluetooth - http://code.google.com/p/backport-android-bluetooth/
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package backport.android.bluetooth;
 
 import java.util.ArrayList;
@@ -210,16 +226,247 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 		}
 	}
 
+	private static final class AclConnectedConverter extends ConverterTemplate {
+
+		@Override
+		protected boolean hasResponsibility(String action) {
+
+			return action
+					.equals(BluetoothIntent.REMOTE_DEVICE_CONNECTED_ACTION);
+		}
+
+		@Override
+		protected String getAction() {
+
+			return BluetoothDevice.ACTION_ACL_CONNECTED;
+		}
+
+		@Override
+		protected void convertIntentInternal(Intent src, Intent dest) {
+
+			super.convertIntentInternal(src, dest);
+			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
+			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
+					.getRemoteDevice(address);
+			dest.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
+		}
+	}
+
+	private static final class AclDisconnectedConverter extends
+			ConverterTemplate {
+
+		@Override
+		protected boolean hasResponsibility(String action) {
+
+			return action
+					.equals(BluetoothIntent.REMOTE_DEVICE_DISCONNECTED_ACTION);
+		}
+
+		@Override
+		protected String getAction() {
+
+			return BluetoothDevice.ACTION_ACL_DISCONNECTED;
+		}
+
+		@Override
+		protected void convertIntentInternal(Intent src, Intent dest) {
+
+			super.convertIntentInternal(src, dest);
+			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
+			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
+					.getRemoteDevice(address);
+			dest.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
+		}
+	}
+
+	private static final class AclDisconnectRequestedConverter extends
+			ConverterTemplate {
+
+		@Override
+		protected boolean hasResponsibility(String action) {
+
+			return action
+					.equals(BluetoothIntent.REMOTE_DEVICE_DISCONNECT_REQUESTED_ACTION);
+		}
+
+		@Override
+		protected String getAction() {
+
+			return BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED;
+		}
+
+		@Override
+		protected void convertIntentInternal(Intent src, Intent dest) {
+
+			super.convertIntentInternal(src, dest);
+			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
+			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
+					.getRemoteDevice(address);
+			dest.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
+		}
+	}
+
+	private static final class BondStateChangedConverter extends
+			ConverterTemplate {
+
+		@Override
+		protected boolean hasResponsibility(String action) {
+
+			return action.equals(BluetoothIntent.BOND_STATE_CHANGED_ACTION);
+		}
+
+		@Override
+		protected String getAction() {
+
+			return BluetoothDevice.ACTION_BOND_STATE_CHANGED;
+		}
+
+		@Override
+		protected void convertIntentInternal(Intent src, Intent dest) {
+
+			super.convertIntentInternal(src, dest);
+			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
+			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
+					.getRemoteDevice(address);
+			dest.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
+			int bondState = src.getIntExtra(BluetoothIntent.BOND_STATE,
+					BluetoothDevice.ERROR);
+			bondState = convertBondState(bondState);
+			dest.putExtra(BluetoothDevice.EXTRA_BOND_STATE, bondState);
+			int previousBondState = src.getIntExtra(
+					BluetoothIntent.BOND_PREVIOUS_STATE, BluetoothDevice.ERROR);
+			previousBondState = convertBondState(previousBondState);
+			dest.putExtra(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE,
+					previousBondState);
+		}
+
+		private int convertBondState(int bondState) {
+
+			switch (bondState) {
+
+			case BOND_NOT_BONDED:
+
+				return BluetoothDevice.BOND_NONE;
+			case BOND_BONDING:
+
+				return BluetoothDevice.BOND_BONDING;
+			case BOND_BONDED:
+
+				return BluetoothDevice.BOND_BONDED;
+			}
+
+			return BluetoothDevice.ERROR;
+		}
+	}
+
+	private static final class ClassChangedConverter extends ConverterTemplate {
+
+		@Override
+		protected boolean hasResponsibility(String action) {
+
+			return action
+					.equals(BluetoothIntent.REMOTE_DEVICE_CLASS_UPDATED_ACTION);
+		}
+
+		@Override
+		protected String getAction() {
+
+			return BluetoothDevice.ACTION_CLASS_CHANGED;
+		}
+
+		@Override
+		protected void convertIntentInternal(Intent src, Intent dest) {
+
+			super.convertIntentInternal(src, dest);
+			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
+			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
+					.getRemoteDevice(address);
+			dest.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
+			int deviceClass = src.getIntExtra(BluetoothIntent.CLASS,
+					BluetoothDevice.ERROR);
+			dest.putExtra(BluetoothDevice.EXTRA_CLASS, deviceClass);
+		}
+	}
+
+	private static final class FoundConverter extends ConverterTemplate {
+
+		@Override
+		protected boolean hasResponsibility(String action) {
+
+			return action.equals(BluetoothIntent.REMOTE_DEVICE_FOUND_ACTION);
+		}
+
+		@Override
+		protected String getAction() {
+
+			return BluetoothDevice.ACTION_FOUND;
+		}
+
+		@Override
+		protected void convertIntentInternal(Intent src, Intent dest) {
+
+			super.convertIntentInternal(src, dest);
+			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
+			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
+					.getRemoteDevice(address);
+			dest.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
+			String name = src.getStringExtra(BluetoothIntent.NAME);
+			dest.putExtra(BluetoothDevice.EXTRA_NAME, name);
+			short rssi = src.getShortExtra(BluetoothIntent.RSSI,
+					Short.MIN_VALUE);
+			dest.putExtra(BluetoothDevice.EXTRA_RSSI, rssi);
+		}
+	}
+
+	private static final class NameChangedConverter extends ConverterTemplate {
+
+		@Override
+		protected boolean hasResponsibility(String action) {
+
+			return action.equals(BluetoothIntent.REMOTE_NAME_UPDATED_ACTION);
+		}
+
+		@Override
+		protected String getAction() {
+
+			return BluetoothDevice.ACTION_NAME_CHANGED;
+		}
+
+		@Override
+		protected void convertIntentInternal(Intent src, Intent dest) {
+
+			super.convertIntentInternal(src, dest);
+			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
+			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
+					.getRemoteDevice(address);
+			dest.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
+			String name = src.getStringExtra(BluetoothIntent.NAME);
+			dest.putExtra(BluetoothDevice.EXTRA_NAME, name);
+		}
+	}
+
 	private static final Converter[] CONVERTERS;
 
 	static {
 
 		List<Converter> temp = new ArrayList<Converter>();
+
+		// defined in BluetoothAdapter
 		temp.add(new DiscoveryFinishedConverter());
 		temp.add(new DiscoveryStartedConverter());
 		temp.add(new LocalNameChangedConverter());
 		temp.add(new ScanModeChangedConverter());
 		temp.add(new StateChangedConverter());
+
+		// defined in BluetoothDevice
+		temp.add(new AclConnectedConverter());
+		temp.add(new AclDisconnectedConverter());
+		temp.add(new AclDisconnectRequestedConverter());
+		temp.add(new BondStateChangedConverter());
+		temp.add(new ClassChangedConverter());
+		temp.add(new FoundConverter());
+		temp.add(new NameChangedConverter());
+
 		CONVERTERS = temp.toArray(new Converter[temp.size()]);
 	}
 

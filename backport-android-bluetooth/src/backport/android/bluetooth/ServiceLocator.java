@@ -109,8 +109,8 @@ final class ServiceLocator {
 		return getClassLoader().loadClass(binderType);
 	}
 
-	private static final Method getAsInterfaceMethod(
-			Class<?> stub) throws SecurityException, NoSuchMethodException {
+	private static final Method getAsInterfaceMethod(Class<?> stub)
+			throws SecurityException, NoSuchMethodException {
 
 		return getDeclaredMethod(stub, AS_INTERFACE, IBinder.class);
 	}
