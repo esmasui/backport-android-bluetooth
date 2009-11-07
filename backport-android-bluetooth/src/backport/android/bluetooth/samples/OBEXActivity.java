@@ -14,13 +14,19 @@
  * limitations under the License.
  */
 
-package backport.android.bluetooth;
+package backport.android.bluetooth.samples;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
+
+import backport.android.bluetooth.BluetoothAdapter;
+import backport.android.bluetooth.BluetoothServerSocket;
+import backport.android.bluetooth.BluetoothSocket;
+import backport.android.bluetooth.R;
+import backport.android.bluetooth.R.layout;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;

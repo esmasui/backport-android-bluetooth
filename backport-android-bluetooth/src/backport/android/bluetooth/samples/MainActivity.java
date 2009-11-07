@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-package backport.android.bluetooth;
+package backport.android.bluetooth.samples;
 
+import backport.android.bluetooth.BluetoothAdapter;
+import backport.android.bluetooth.R;
+import backport.android.bluetooth.R.layout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,6 +55,12 @@ public class MainActivity extends Activity {
 		Intent enabler = new Intent(
 				BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
 		startActivityForResult(enabler, REQUEST_DISCOVERABLE);
+	}
+
+	public void onStartDiscoveryButtonClicked(View view) {
+
+		Intent enabler = new Intent(this, DiscoveryActivity.class);
+		startActivity(enabler);
 	}
 
 	@Override
