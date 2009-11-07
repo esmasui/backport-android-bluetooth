@@ -12,8 +12,10 @@ import android.content.IntentFilter;
 import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import backport.android.bluetooth.BluetoothAdapter;
 import backport.android.bluetooth.BluetoothDevice;
 import backport.android.bluetooth.R;
@@ -135,6 +137,14 @@ public class DiscoveryActivity extends ListActivity {
 				setListAdapter(adapter);
 			}
 		});
+	}
+	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
 
+		Intent result = new Intent();
+		result.putExtra(BluetoothDevice.EXTRA_DEVICE, _devices.get(position));
+		setResult(RESULT_OK, result);
+		finish();
 	}
 }

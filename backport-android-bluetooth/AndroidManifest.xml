@@ -19,6 +19,14 @@
 			</intent-filter>
 		</activity>
 
+		<activity android:name=".samples.ClientSocketActivity"
+			android:theme="@style/Theme.Transparent">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+
 		<activity android:name="backport.android.bluetooth.RequestEnableActivity"
 			android:theme="@style/Theme.Transparent">
 			<intent-filter>

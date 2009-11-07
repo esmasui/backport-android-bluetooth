@@ -4,20 +4,24 @@
 	android:layout_height="fill_parent" android:padding="10dip">
 
 	<Button android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:text="Enable"
+		android:layout_height="wrap_content" android:text="Enable bluetooth"
 		android:onClick="onEnableButtonClicked" />
 
 	<Button android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:text="Disable"
+		android:layout_height="wrap_content" android:text="Disable bluetooth"
 		android:onClick="onDisableButtonClicked" />
 
 	<Button android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:text="Discoverable"
-		android:onClick="onDiscoverableButtonClicked" />
+		android:layout_height="wrap_content" android:text="Make discoverable"
+		android:onClick="onMakeDiscoverableButtonClicked" />
 
 	<Button android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:text="startDiscovery"
+		android:layout_height="wrap_content" android:text="Start discovery"
 		android:onClick="onStartDiscoveryButtonClicked" />
+
+	<Button android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="Open client connection"
+		android:onClick="onOpenClientSocketButtonClicked" />
 
 
 </LinearLayout>

@@ -16,13 +16,12 @@
 
 package backport.android.bluetooth.samples;
 
-import backport.android.bluetooth.BluetoothAdapter;
-import backport.android.bluetooth.R;
-import backport.android.bluetooth.R.layout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import backport.android.bluetooth.BluetoothAdapter;
+import backport.android.bluetooth.R;
 
 public class MainActivity extends Activity {
 
@@ -50,7 +49,7 @@ public class MainActivity extends Activity {
 		_bluetooth.disable();
 	}
 
-	public void onDiscoverableButtonClicked(View view) {
+	public void onMakeDiscoverableButtonClicked(View view) {
 
 		Intent enabler = new Intent(
 				BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
@@ -63,14 +62,21 @@ public class MainActivity extends Activity {
 		startActivity(enabler);
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onOpenClientSocketButtonClicked(View view) {
 
-		if (requestCode == REQUEST_ENABLE) {
-
-			if (resultCode == RESULT_OK) {
-
-			}
-		}
+		Intent enabler = new Intent(this, ClientSocketActivity.class);
+		startActivity(enabler);
 	}
+
+	// @Override
+	// protected void onActivityResult(int requestCode, int resultCode, Intent
+	// data) {
+	//
+	// if (requestCode == REQUEST_ENABLE) {
+	//
+	// if (resultCode == RESULT_OK) {
+	//
+	// }
+	// }
+	// }
 }
