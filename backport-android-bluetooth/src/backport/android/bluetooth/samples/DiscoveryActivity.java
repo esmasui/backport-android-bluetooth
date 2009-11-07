@@ -103,6 +103,7 @@ public class DiscoveryActivity extends ListActivity {
 					@Override
 					public void onDismiss(DialogInterface dialog) {
 
+						_bluetooth.cancelDiscovery();
 						_discoveryFinished = true;
 					}
 				}, true);
