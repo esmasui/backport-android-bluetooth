@@ -18,7 +18,7 @@
 	<target name="default" depends="depends" description="description">
 
 		<jar destfile="bin/backport-android-bluetooth.jar">
-			<fileset dir="bin" includes="**/backport/**/*.class" excludes="**/MainActivity*.class,**/R.class,**/R$*.class"/>
+			<fileset dir="bin" includes="**/backport/**/*.class" excludes="**/samples/*.class,**/R.class,**/R$*.class"/>
 		</jar>
 	</target>
 
