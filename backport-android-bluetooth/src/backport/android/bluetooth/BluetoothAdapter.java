@@ -651,24 +651,24 @@ public final class BluetoothAdapter {
 	public BluetoothServerSocket listenUsingRfcommWithServiceRecord(
 			String name, UUID uuid) throws IOException {
 
-//		for (int port = 12; port <= 30; port++) {
-//
-//			try {
-//
-//				BluetoothServerSocket socket = BluetoothServerSocket
-//						.listenUsingRfcommOn(port);
-//
-//				Log.i(TAG, uuid + " listen on " + port);
-//
-//				return socket;
-//			} catch (IOException e) {
-//
-//				// ignore;
-//			}
-//		}
-//
-//		throw new IOException();
-		return BluetoothServerSocket.listenUsingRfcommOn(-1);
+		for (int port = 12; port <= 30; port++) {
+
+			try {
+
+				BluetoothServerSocket socket = BluetoothServerSocket
+						.listenUsingRfcommOn(port);
+
+				Log.i(TAG, uuid + " listen on " + port);
+
+				return socket;
+			} catch (IOException e) {
+
+				// ignore;
+			}
+		}
+
+		throw new IOException();
+		// return BluetoothServerSocket.listenUsingRfcommOn(-1);
 	}
 
 	/**

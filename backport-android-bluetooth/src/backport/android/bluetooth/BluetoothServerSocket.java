@@ -30,112 +30,203 @@
  * limitations under the License.
  */
 
-
 package backport.android.bluetooth;
 
 import java.io.Closeable;
+import java.io.FileDescriptor;
 import java.io.IOException;
+
+import android.bluetooth.RfcommSocket;
+import android.util.Log;
 
 /**
  * Server (listening) Bluetooth Socket.
- *
+ * 
  * Currently only supports RFCOMM sockets.
- *
+ * 
  * RFCOMM is a connection orientated, streaming transport over Bluetooth. It is
  * also known as the Serial Port Profile (SPP).
- *
- * TODO: Consider implementing SCO and L2CAP sockets.
- * TODO: Clean up javadoc grammer and formatting.
- * TODO: Remove @hide
+ * 
+ * TODO: Consider implementing SCO and L2CAP sockets. TODO: Clean up javadoc
+ * grammer and formatting. TODO: Remove @hide
+ * 
  * @hide
  */
 public final class BluetoothServerSocket implements Closeable {
-    /**
-     * Construct an unencrypted, unauthenticated, RFCOMM server socket.
-     * Call #accept to retrieve connections to this socket.
-     * @return An RFCOMM BluetoothServerSocket
-     * @throws IOException On error, for example Bluetooth not available, or
-     *                     insufficient permissions.
-     */
-    public static BluetoothServerSocket listenUsingInsecureRfcommOn(int port) throws IOException {
-        BluetoothServerSocket socket = new BluetoothServerSocket(false, false);
-        try {
-            socket.mSocket.bindListenNative(port);
-        } catch (IOException e) {
-            try {
-                socket.close();
-            } catch (IOException e2) { }
-            throw e;
-        }
-        return socket;
-    }
+	/**
+	 * Construct an unencrypted, unauthenticated, RFCOMM server socket. Call
+	 * #accept to retrieve connections to this socket.
+	 * 
+	 * @return An RFCOMM BluetoothServerSocket
+	 * @throws IOException
+	 *             On error, for example Bluetooth not available, or
+	 *             insufficient permissions.
+	 */
+	public static BluetoothServerSocket listenUsingInsecureRfcommOn(int port)
+			throws IOException {
+		BluetoothServerSocket socket = new BluetoothServerSocket(false, false);
+		try {
+			socket.mSocket.bindListenNative(port);
+		} catch (IOException e) {
+			try {
+				socket.close();
+			} catch (IOException e2) {
+			}
+			throw e;
+		}
+		return socket;
+	}
 
-    /**
-     * Construct a listening, secure RFCOMM server socket.
-     * The remote device connecting to this socket will be authenticated and
-     * communication on this socket will be encrypted.
-     * Call #accept to retrieve connections to this socket.
-     * @return An RFCOMM BluetoothServerSocket
-     * @throws IOException On error, for example Bluetooth not available, or
-     *                     insufficient permissions.
-     */
-    public static BluetoothServerSocket listenUsingRfcommOn(int port) throws IOException {
-        BluetoothServerSocket socket = new BluetoothServerSocket(true, true);
-        try {
-            socket.mSocket.bindListenNative(port);
-        } catch (IOException e) {
-            try {
-                socket.close();
-            } catch (IOException e2) { }
-            throw e;
-        }
-        return socket;
-    }
+	/**
+	 * Construct a listening, secure RFCOMM server socket. The remote device
+	 * connecting to this socket will be authenticated and communication on this
+	 * socket will be encrypted. Call #accept to retrieve connections to this
+	 * socket.
+	 * 
+	 * @return An RFCOMM BluetoothServerSocket
+	 * @throws IOException
+	 *             On error, for example Bluetooth not available, or
+	 *             insufficient permissions.
+	 */
+	public static BluetoothServerSocket listenUsingRfcommOn(int port)
+			throws IOException {
+		BluetoothServerSocket socket = new BluetoothServerSocket(true, true);
+		try {
+			socket.mSocket.bindListenNative(port);
+		} catch (IOException e) {
+			try {
+				socket.close();
+			} catch (IOException e2) {
+			}
+			throw e;
+		}
+		return socket;
+	}
 
-    private final BluetoothSocket mSocket;
+	private final BluetoothSocket mSocket;
 
-    /**
-     * Construct a socket for incoming connections.
-     * @param auth    Require the remote device to be authenticated
-     * @param encrypt Require the connection to be encrypted
-     * @throws IOException On error, for example Bluetooth not available, or
-     *                     insufficient priveleges
-     */
-    private BluetoothServerSocket(boolean auth, boolean encrypt) throws IOException {
-        mSocket = new BluetoothSocket(-1, auth, encrypt, null, -1);
-    }
+	private volatile BluetoothSocket mServerSocket;
 
-    /**
-     * Block until a connection is established.
-     * Returns a connected #BluetoothSocket. This server socket can be reused
-     * for subsequent incoming connections by calling #accept repeatedly.
-     * #close can be used to abort this call from another thread.
-     * @return A connected #BluetoothSocket
-     * @throws IOException On error, for example this call was aborted
-     */
-    public BluetoothSocket accept() throws IOException {
-        return accept(-1);
-    }
+	/**
+	 * Construct a socket for incoming connections.
+	 * 
+	 * @param auth
+	 *            Require the remote device to be authenticated
+	 * @param encrypt
+	 *            Require the connection to be encrypted
+	 * @throws IOException
+	 *             On error, for example Bluetooth not available, or
+	 *             insufficient priveleges
+	 */
+	private BluetoothServerSocket(boolean auth, boolean encrypt)
+			throws IOException {
+		mSocket = new BluetoothSocket(-1, auth, encrypt, null, -1);
+	}
 
-    /**
-     * Block until a connection is established, with timeout.
-     * Returns a connected #BluetoothSocket. This server socket can be reused
-     * for subsequent incoming connections by calling #accept repeatedly.
-     * #close can be used to abort this call from another thread.
-     * @return A connected #BluetoothSocket
-     * @throws IOException On error, for example this call was aborted, or
-     *                     timeout
-     */
-    public BluetoothSocket accept(int timeout) throws IOException {
-        return mSocket.acceptNative(timeout);
-    }
+	/**
+	 * Block until a connection is established. Returns a connected
+	 * #BluetoothSocket. This server socket can be reused for subsequent
+	 * incoming connections by calling #accept repeatedly. #close can be used to
+	 * abort this call from another thread.
+	 * 
+	 * @return A connected #BluetoothSocket
+	 * @throws IOException
+	 *             On error, for example this call was aborted
+	 */
+	public BluetoothSocket accept() throws IOException {
+		return accept(-1);
+	}
 
-    /**
-     * Closes this socket.
-     * This will cause other blocking calls on this socket to immediately
-     * throw an IOException.
-     */
-    public void close() throws IOException {
-        mSocket.closeNative();
-    }
+	/**
+	 * Block until a connection is established, with timeout. Returns a
+	 * connected #BluetoothSocket. This server socket can be reused for
+	 * subsequent incoming connections by calling #accept repeatedly. #close can
+	 * be used to abort this call from another thread.
+	 * 
+	 * @return A connected #BluetoothSocket
+	 * @throws IOException
+	 *             On error, for example this call was aborted, or timeout
+	 */
+	public BluetoothSocket accept(int timeout) throws IOException {
+
+		if (timeout > -1) {
+
+			synchronized (mSocket) {
+
+				mServerSocket = mSocket.createSocket();
+				RfcommSocket rfcommSocket = mServerSocket.getRfcommSocket();
+				mSocket.getRfcommSocket().accept(rfcommSocket, timeout);
+
+				return mServerSocket;
+			}
+		}
+
+		_listening = true;
+
+		for (;;) {
+
+			synchronized (mSocket) {
+				
+				if (!_listening) {
+
+					break;
+				}
+			}
+
+			BluetoothSocket newSocket;
+			FileDescriptor accept;
+
+			synchronized (mSocket) {
+
+				newSocket = mSocket.createSocket();
+			}
+
+			RfcommSocket acceptee = newSocket.getRfcommSocket();
+			RfcommSocket accepter;
+
+			synchronized (mSocket) {
+
+				accepter = mSocket.getRfcommSocket();
+			}
+
+			accept = accepter.accept(acceptee, 3000);
+
+			if (accept != null && accept.valid()) {
+
+				synchronized (mSocket) {
+
+					mServerSocket = newSocket;
+				}
+
+				break;
+			}
+
+			//newSocket.close();
+		}
+
+		return mServerSocket;
+	}
+
+	private boolean _listening;
+
+	/**
+	 * Closes this socket. This will cause other blocking calls on this socket
+	 * to immediately throw an IOException.
+	 */
+	public void close() throws IOException {
+
+		synchronized (mSocket) {
+
+			_listening = false;
+
+			if (mServerSocket != null) {
+
+				mServerSocket.close();
+				mServerSocket = null;
+			}
+
+			// mSocket.closeNative();
+			mSocket.close();
+		}
+	}
 }

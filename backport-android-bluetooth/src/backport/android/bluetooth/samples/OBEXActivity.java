@@ -81,7 +81,26 @@ public class OBEXActivity extends Activity {
 
 				_server = BluetoothAdapter.getDefaultAdapter()
 						.listenUsingRfcommWithServiceRecord("OBEX", null);
+
+				new Thread(){
+					
+					public void run() {
+						
+						Log.d("@Rfcom", "begin close");
+
+						try {
+							_socket.close();
+						} catch (IOException e) {
+
+							Log.e(TAG, "", e);
+						}
+
+						Log.d("@Rfcom", "end close");
+					};
+				}.start();
+
 				_socket = _server.accept();
+
 
 				reader.start();
 
@@ -180,23 +199,8 @@ public class OBEXActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
-		// t.start();
-		startActivity(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE));
-		IntentFilter filter = new IntentFilter();
-		filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
-		filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-		
-		registerReceiver(new BroadcastReceiver() {
-
-			@Override
-			public void onReceive(Context context, Intent intent) {
-		
-				Log.d(TAG, intent.toString());
-			}
-		}, filter);
-		
-		BluetoothAdapter.getDefaultAdapter().startDiscovery();
+		setContentView(R.layout.obex_server_socket);
+		t.start();
 		// Intent i = new Intent(Intent.ACTION_PICK, People.CONTENT_URI);
 		// Intent i = new Intent(Intent.ACTION_PICK);
 		// i.setType("vnd.android.cursor.item/phone");

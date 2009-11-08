@@ -131,25 +131,15 @@ public final class BluetoothSocket implements Closeable {
 	 *             On error, for example Bluetooth not available, or
 	 *             insufficient priveleges
 	 */
+
 	/* package */BluetoothSocket(int fd, boolean auth, boolean encrypt,
 			String address, int port) throws IOException {
-		this(null, fd, auth, encrypt, address, port);
-	}
-
-	/* package */BluetoothSocket(RfcommSocket socket, int fd, boolean auth,
-			boolean encrypt, String address, int port) throws IOException {
 		mAuth = auth;
 		mEncrypt = encrypt;
 		mAddress = address;
 		mPort = port;
 
-		if (socket != null) {
-
-			mRfcommSocket = socket;
-		} else {
-
-			mRfcommSocket = new RfcommSocket();
-		}
+		mRfcommSocket = new RfcommSocket();
 
 		if (fd == -1) {
 			initSocketNative();
@@ -164,12 +154,20 @@ public final class BluetoothSocket implements Closeable {
 	// IOException;
 	BluetoothSocket acceptNative(int timeout) throws IOException {
 
-		RfcommSocket serverSocket = new RfcommSocket();
-		serverSocket.create();
-		mRfcommSocket.accept(serverSocket, timeout);
+		throw new UnsupportedOperationException();
+	}
 
-		return new BluetoothSocket(serverSocket, -1, mAuth, mEncrypt, mAddress,
-				mPort);
+	BluetoothSocket createSocket() throws IOException {
+
+		BluetoothSocket socket = new BluetoothSocket(-1, mAuth, mEncrypt,
+				mAddress, mPort);
+
+		return socket;
+	}
+
+	RfcommSocket getRfcommSocket() {
+
+		return mRfcommSocket;
 	}
 
 	// /* package */native int availableNative();
@@ -228,13 +226,30 @@ public final class BluetoothSocket implements Closeable {
 	void closeNative() {
 
 		try {
-			mRfcommSocket.shutdown();
+			
+			mRfcommSocket.getFileDescriptor();
 		} catch (IOException e) {
 
-			Log.e(TAG, EMPTY, e);
+			// acceptをタイムアウトしたサーバーソケットはfdがnullなのでIOExceptionを発する。
+			// 無視してよい.
+
+			return;
+		}
+		
+		try {
+
+			mRfcommSocket.shutdown();
+
+		} catch (IOException e) {
+
+			// acceptをタイムアウトしたサーバーソケットはfdがnullなのでIOExceptionを発する。
+			// 無視してよい.
+
+			return;
 		}
 
 		destroyNative();
+
 	}
 
 	/**

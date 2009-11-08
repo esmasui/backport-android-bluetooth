@@ -4,6 +4,7 @@
 	android:versionName="1.0">
 	<application android:icon="@drawable/icon" android:label="@string/app_name">
 
+		<!-- sample activities -->
 		<activity android:name=".samples.MainActivity" android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -27,6 +28,25 @@
 			</intent-filter>
 		</activity>
 
+		<activity android:name=".samples.ServerSocketActivity"
+			android:theme="@style/Theme.Transparent">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".samples.OBEXActivity"
+			android:theme="@style/Theme.Transparent">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+
+
+		<!-- system activities -->
+		
 		<activity android:name="backport.android.bluetooth.RequestEnableActivity"
 			android:theme="@style/Theme.Transparent">
 			<intent-filter>

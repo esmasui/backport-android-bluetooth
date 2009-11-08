@@ -20,8 +20,17 @@
 		android:onClick="onStartDiscoveryButtonClicked" />
 
 	<Button android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:text="Open client connection"
+		android:layout_height="wrap_content" android:text="Start client"
 		android:onClick="onOpenClientSocketButtonClicked" />
 
+	<Button android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="Start server"
+		android:onClick="onOpenServerSocketButtonClicked" />
+
+	<!-- 
+	<Button android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="Start OBEX server"
+		android:onClick="onOpenOBEXServerSocketButtonClicked" />
+	-->
 
 </LinearLayout>

@@ -68,6 +68,18 @@ public class MainActivity extends Activity {
 		startActivity(enabler);
 	}
 
+	public void onOpenServerSocketButtonClicked(View view) {
+
+		Intent enabler = new Intent(this, ServerSocketActivity.class);
+		startActivity(enabler);
+	}
+
+	public void onOpenOBEXServerSocketButtonClicked(View view) {
+
+		Intent enabler = new Intent(this, OBEXActivity.class);
+		startActivity(enabler);
+	}
+
 	// @Override
 	// protected void onActivityResult(int requestCode, int resultCode, Intent
 	// data) {
