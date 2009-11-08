@@ -189,7 +189,7 @@ public final class BluetoothServerSocket implements Closeable {
 				accepter = mSocket.getRfcommSocket();
 			}
 
-			accept = accepter.accept(acceptee, 3000);
+			accept = accepter.accept(acceptee, 1000);
 
 			if (accept != null && accept.valid()) {
 
