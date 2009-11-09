@@ -87,7 +87,7 @@ public class DiscoveryActivity extends ListActivity {
 		if (!_bluetooth.isEnabled()) {
 
 			finish();
-			
+
 			return;
 		}
 
@@ -103,7 +103,11 @@ public class DiscoveryActivity extends ListActivity {
 
 					public void onDismiss(DialogInterface dialog) {
 
-						_bluetooth.cancelDiscovery();
+						for (; _bluetooth.isDiscovering();) {
+
+							_bluetooth.cancelDiscovery();
+						}
+
 						_discoveryFinished = true;
 					}
 				}, true);
@@ -135,7 +139,7 @@ public class DiscoveryActivity extends ListActivity {
 			}
 		});
 	}
-	
+
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 
