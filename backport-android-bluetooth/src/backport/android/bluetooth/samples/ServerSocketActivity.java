@@ -76,6 +76,7 @@ public class ServerSocketActivity extends ListActivity {
 	protected void finalize() throws Throwable {
 
 		super.finalize();
+		shutdownServer();
 	}
 
 	private void shutdownServer() {
@@ -117,11 +118,17 @@ public class ServerSocketActivity extends ListActivity {
 					BluetoothProtocols.RFCOMM_PROTOCOL_UUID);
 
 			final List<String> lines = new ArrayList<String>();
-			lines.add("Rfcomm server started...");
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-					ServerSocketActivity.this,
-					android.R.layout.simple_list_item_1, lines);
-			setListAdapter(adapter);
+			_handler.post(new Runnable() {
+
+				public void run() {
+
+					lines.add("Rfcomm server started...");
+					ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+							ServerSocketActivity.this,
+							android.R.layout.simple_list_item_1, lines);
+					setListAdapter(adapter);
+				}
+			});
 
 			BluetoothSocket socket = _serverSocket.accept();
 
