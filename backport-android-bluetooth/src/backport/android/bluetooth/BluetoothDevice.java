@@ -331,6 +331,8 @@ public final class BluetoothDevice implements Parcelable {
 
 								err.put(new IOException(Integer
 										.toString(channel)));
+
+								return;
 							}
 
 							try {
