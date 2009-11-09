@@ -315,7 +315,6 @@ public final class BluetoothDevice implements Parcelable {
 			bluetooth.getRemoteServiceChannel(mAddress, uuid16,
 					new IBluetoothDeviceCallback.Stub() {
 
-						@Override
 						public void onGetRemoteServiceChannelResult(
 								String address, int channel)
 								throws RemoteException {

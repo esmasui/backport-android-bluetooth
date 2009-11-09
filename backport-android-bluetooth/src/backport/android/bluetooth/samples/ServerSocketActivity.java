@@ -136,7 +136,6 @@ public class ServerSocketActivity extends ListActivity {
 					final int count = read;
 					_handler.post(new Runnable() {
 
-						@Override
 						public void run() {
 
 							StringBuilder b = new StringBuilder();

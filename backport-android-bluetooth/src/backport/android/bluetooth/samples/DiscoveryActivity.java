@@ -32,7 +32,6 @@ public class DiscoveryActivity extends ListActivity {
 
 	private Runnable _discoveryWorkder = new Runnable() {
 
-		@Override
 		public void run() {
 
 			_bluetooth.startDiscovery();
@@ -102,7 +101,6 @@ public class DiscoveryActivity extends ListActivity {
 		SamplesUtils.indeterminate(DiscoveryActivity.this, _handler,
 				"Scanning...", _discoveryWorkder, new OnDismissListener() {
 
-					@Override
 					public void onDismiss(DialogInterface dialog) {
 
 						_bluetooth.cancelDiscovery();
@@ -131,7 +129,6 @@ public class DiscoveryActivity extends ListActivity {
 
 		_handler.post(new Runnable() {
 
-			@Override
 			public void run() {
 
 				setListAdapter(adapter);
