@@ -36,6 +36,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 
 import android.bluetooth.RfcommSocket;
 import android.util.Log;
@@ -226,7 +227,7 @@ public final class BluetoothSocket implements Closeable {
 	void closeNative() {
 
 		try {
-			
+
 			mRfcommSocket.getFileDescriptor();
 		} catch (IOException e) {
 
@@ -235,7 +236,7 @@ public final class BluetoothSocket implements Closeable {
 
 			return;
 		}
-		
+
 		try {
 
 			mRfcommSocket.shutdown();
@@ -315,7 +316,29 @@ public final class BluetoothSocket implements Closeable {
 	 *         or established a connection.
 	 */
 	String getAddress() {
-		return mAddress;
+		
+		//return mAddress;
+		return getAddressInternal();
+	}
+
+	private String getAddressInternal() {
+
+		try {
+			
+			Field mAddressField = RfcommSocket.class.getDeclaredField("mAddress");
+			
+			if(mAddressField.isAccessible()){
+			
+				mAddressField.setAccessible(true);
+			}
+			
+			String ret = (String) mAddressField.get(mRfcommSocket);
+		} catch (Exception e) {
+
+			Log.e(TAG, "", e);
+		}
+		
+		return null;
 	}
 
 	/**
@@ -386,6 +409,6 @@ public final class BluetoothSocket implements Closeable {
 	 */
 	public BluetoothDevice getRemoteDevice() {
 
-		return BluetoothAdapter.getDefaultAdapter().getRemoteDevice(mAddress);
+		return BluetoothAdapter.getDefaultAdapter().getRemoteDevice(getAddressInternal());
 	}
 }
