@@ -13,6 +13,14 @@
 			</intent-filter>
 		</activity>
 		
+		<!-- bluetooth chat -->
+        <activity android:name="com.example.bluetooth.BluetoothChat"
+                  android:label="@string/bluetooth_chat_app_name"
+                  android:configChanges="orientation|keyboardHidden" />
+        <activity android:name="com.example.bluetooth.DeviceListActivity"
+                  android:label="@string/select_device"
+                  android:theme="@android:style/Theme.Dialog"
+                  android:configChanges="orientation|keyboardHidden" />
 		
 		<!-- system activities -->
 		
@@ -57,16 +65,7 @@
 				<!-- android.bluetooth.intent.action.REMOTE_NAME_FAILED -->
 			</intent-filter>
 		</receiver>
-		
-		<!-- bluetooth chat -->
-        <activity android:name="com.example.bluetooth.BluetoothChat"
-                  android:label="@string/bluetooth_chat_app_name"
-                  android:configChanges="orientation|keyboardHidden" />
-        <activity android:name="com.example.bluetooth.DeviceListActivity"
-                  android:label="@string/select_device"
-                  android:theme="@android:style/Theme.Dialog"
-                  android:configChanges="orientation|keyboardHidden" />
-		
+				
 	</application>
 
 	<uses-sdk android:maxSdkVersion="4" />
