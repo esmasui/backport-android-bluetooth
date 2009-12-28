@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="hello">Hello World, MainActivity!</string>
-	<string name="app_name">backport.android.bluetooth</string>
+
+	<string name="button_chat">チャットを開始する</string>
+	<string name="app_name">BackportOfBluetooth</string>
 	<string name="permission_request">Bluetooth permission request</string>
-	<!-- 
-	<string name="enable_request">You must tap on the Bluetooth icon to allow
-		activating Bluetooth.</string>
-	-->
+
+	
 	<string name="enable_request">Turn on Bluetooth</string>
 	
-	<string name="discoverable_request">Make device discoverable</string>
+	<string name="discoverability_request">Make device discoverable</string>
 	
 	
-	<!-- bluetooth chat -->
+	<!-- 
+		
+		ここから下はAndroid SDK WEBのbluetooth chatのバックポート.
+		SDPクエリのUUID引数がint型なのでオリジナルのchat(2.0)とは繋がりません. 
+	-->
 	
     <string name="bluetooth_chat_app_name">Bluetooth Chat</string>
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package backport.android.bluetooth.chat;
+package com.example.bluetooth;
 
 import java.io.IOException;
 import java.io.InputStream;

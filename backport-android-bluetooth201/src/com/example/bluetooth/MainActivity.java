@@ -1,4 +1,5 @@
-package backport.android.bluetooth.samples;
+package com.example.bluetooth;
+
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import backport.android.bluetooth.BluetoothAdapter;
 import backport.android.bluetooth.R;
-import backport.android.bluetooth.chat.BluetoothChat;
 
 public class MainActivity extends Activity {
 
