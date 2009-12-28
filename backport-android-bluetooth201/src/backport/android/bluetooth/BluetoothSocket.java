@@ -239,7 +239,7 @@ public class BluetoothSocket implements Closeable {
 			}
 			if (mChannel < 1) {
 
-				mChannel = uuid16 + BluetoothAdapter.START_CHANNEL;
+				mChannel = uuid16 & BluetoothAdapter.START_CHANNEL;
 			}
 			// if (mChannel < 1)
 			// throw new IOException("Service discovery failed");
