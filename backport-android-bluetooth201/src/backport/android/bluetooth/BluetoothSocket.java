@@ -85,12 +85,12 @@ public class BluetoothSocket implements Closeable {
 
 		// all native calls are guaranteed to immediately return after
 		// abortNative(), so this lock should immediatley acquire
-		mLock.writeLock().lock();
+		//mLock.writeLock().lock();
 		try {
 			mClosed = true;
 			mRfcommSocket.destroy();
 		} finally {
-			mLock.writeLock().unlock();
+			//mLock.writeLock().unlock();
 		}
 	}
 
@@ -210,7 +210,7 @@ public class BluetoothSocket implements Closeable {
 
 			boolean inProgress = false;
 			int uuid16 = UUIDHelper.toUUID16(mUuid);
-			
+
 			try {
 				inProgress = mService.getRemoteServiceChannel(mDevice
 						.getAddress(), uuid16, this);
@@ -234,11 +234,11 @@ public class BluetoothSocket implements Closeable {
 			}
 
 			if (mCanceled) {
-				
+
 				throw new IOException("Service discovery canceled");
 			}
-			if(mChannel < 1){
-				
+			if (mChannel < 1) {
+
 				mChannel = uuid16 + BluetoothAdapter.START_CHANNEL;
 			}
 			// if (mChannel < 1)
