@@ -366,14 +366,13 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 		}
 	}
 
-
-	private static final class BondStateChangedBondingConverter extends ConverterTemplate {
+	private static final class BondStateChangedBondingConverter extends
+			ConverterTemplate {
 
 		@Override
 		protected boolean hasResponsibility(String action) {
 
-			return action
-					.equals(BluetoothIntent.PAIRING_REQUEST_ACTION);
+			return action.equals(BluetoothIntent.PAIRING_REQUEST_ACTION);
 		}
 
 		@Override
@@ -390,18 +389,20 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
 					.getRemoteDevice(address);
 			dest.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
-			dest.putExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.BOND_BONDING);
-			dest.putExtra(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE, BluetoothDevice.BOND_NONE);
+			dest.putExtra(BluetoothDevice.EXTRA_BOND_STATE,
+					BluetoothDevice.BOND_BONDING);
+			dest.putExtra(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE,
+					BluetoothDevice.BOND_NONE);
 		}
 	}
 
-	private static final class BondStateChangedBondNoneConverter extends ConverterTemplate {
+	private static final class BondStateChangedBondNoneConverter extends
+			ConverterTemplate {
 
 		@Override
 		protected boolean hasResponsibility(String action) {
 
-			return action
-					.equals(BluetoothIntent.PAIRING_CANCEL_ACTION);
+			return action.equals(BluetoothIntent.PAIRING_CANCEL_ACTION);
 		}
 
 		@Override
@@ -418,8 +419,10 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
 					.getRemoteDevice(address);
 			dest.putExtra(BluetoothDevice.EXTRA_DEVICE, device);
-			dest.putExtra(BluetoothDevice.EXTRA_BOND_STATE, BluetoothDevice.BOND_NONE);
-			dest.putExtra(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE, BluetoothDevice.BOND_BONDING);
+			dest.putExtra(BluetoothDevice.EXTRA_BOND_STATE,
+					BluetoothDevice.BOND_NONE);
+			dest.putExtra(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE,
+					BluetoothDevice.BOND_BONDING);
 		}
 	}
 
@@ -551,7 +554,7 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 			if (converted) {
 
-				//context.sendBroadcast(convertedIntent, BLUETOOTH_PERM);
+				// context.sendBroadcast(convertedIntent, BLUETOOTH_PERM);
 				context.sendBroadcast(convertedIntent);
 
 				Log.d(TAG, "redirect:" + convertedIntent.toString());
