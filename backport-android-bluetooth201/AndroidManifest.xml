@@ -12,6 +12,61 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+		
+		
+		<!-- system activities -->
+		
+		<activity android:name=".RequestEnableActivity"
+			android:theme="@style/Theme.Transparent">
+			<intent-filter>
+				<action android:name="android.bluetooth.adapter.action.REQUEST_ENABLE" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+
+		<activity android:name=".RequestDiscoverabilityActivity"
+			android:theme="@style/Theme.Transparent">
+			<intent-filter>
+				<action android:name="android.bluetooth.adapter.action.REQUEST_DISCOVERABLE" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		
+		<!-- system receivers -->
+		<receiver android:name=".BluetoothIntentRedirector">
+			<intent-filter>
+				<action android:name="android.bluetooth.intent.action.DISCOVERY_COMPLETED" />
+				<action android:name="android.bluetooth.intent.action.DISCOVERY_STARTED" />
+				<action android:name="android.bluetooth.intent.action.NAME_CHANGED" />
+				<action android:name="android.bluetooth.intent.action.SCAN_MODE_CHANGED" />
+				<action android:name="android.bluetooth.intent.action.BLUETOOTH_STATE_CHANGED" />
+				<action android:name="android.bluetooth.intent.action.REMOTE_DEVICE_CONNECTED" />
+				<action android:name="android.bluetooth.intent.action.REMOTE_DEVICE_DISCONNECTED" />
+				<action
+					android:name="android.bluetooth.intent.action.REMOTE_DEVICE_DISCONNECT_REQUESTED" />
+				<action android:name="android.bluetooth.intent.action.BOND_STATE_CHANGED" />
+				<action android:name="android.bluetooth.intent.action.PAIRING_REQUEST" />
+				<action android:name="android.bluetooth.intent.action.PAIRING_CANCEL" />
+				<action
+					android:name="android.bluetooth.intent.action.REMOTE_DEVICE_CLASS_UPDATED" />
+				<action android:name="android.bluetooth.intent.action.REMOTE_DEVICE_FOUND" />
+				<action android:name="android.bluetooth.intent.action.REMOTE_NAME_UPDATED" />
+				<!-- android.bluetooth.intent.action.PAIRING_REQUEST -->
+				<!-- android.bluetooth.intent.action.PAIRING_CANCEL -->
+				<!-- android.bluetooth.intent.action.REMOTE_DEVICE_DISAPPEARED -->
+				<!-- android.bluetooth.intent.action.REMOTE_NAME_FAILED -->
+			</intent-filter>
+		</receiver>
+		
+		<!-- bluetooth chat -->
+        <activity android:name=".chat.BluetoothChat"
+                  android:label="@string/bluetooth_chat_app_name"
+                  android:configChanges="orientation|keyboardHidden" />
+        <activity android:name=".chat.DeviceListActivity"
+                  android:label="@string/select_device"
+                  android:theme="@android:style/Theme.Dialog"
+                  android:configChanges="orientation|keyboardHidden" />
+		
 	</application>
 
 	<uses-sdk android:maxSdkVersion="4" />

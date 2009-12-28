@@ -4,13 +4,16 @@ import java.util.UUID;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.Toast;
 import backport.android.bluetooth.BluetoothAdapter;
 import backport.android.bluetooth.BluetoothSocket;
 import backport.android.bluetooth.R;
 import backport.android.bluetooth.UUIDHelper;
+import backport.android.bluetooth.chat.BluetoothChat;
 
 public class MainActivity extends Activity {
 
@@ -48,20 +51,26 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	public void onBluetoothChatButtonClick(View view) {
+
+		Intent chatIntent = new Intent(this, BluetoothChat.class);
+		startActivity(chatIntent);
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		mLocalDevice = BluetoothAdapter.getDefaultAdapter();
+		// mLocalDevice = BluetoothAdapter.getDefaultAdapter();
 
-		mHandler.post(new Runnable() {
-
-			public void run() {
-
-				doTest();
-			}
-		});
+		// mHandler.post(new Runnable() {
+		//
+		// public void run() {
+		//
+		// doTest();
+		// }
+		// });
 
 	}
 
@@ -96,8 +105,8 @@ public class MainActivity extends Activity {
 
 	private void doTestServerSocket() {
 
-//		mAcceptThread = new MyAcceptThread(mLocalDevice, "MyService",
-//				UUIDHelper.RFCOMM_PROTOCOL_UUID);
+		// mAcceptThread = new MyAcceptThread(mLocalDevice, "MyService",
+		// UUIDHelper.RFCOMM_PROTOCOL_UUID);
 		mAcceptThread = new MyAcceptThread(mLocalDevice, "MyService",
 				UUIDHelper.fromUUID16(0x9999));
 		mAcceptThread.start();
