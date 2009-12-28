@@ -4,6 +4,9 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -22,7 +25,7 @@ public class BluetoothSocket implements Closeable {
 
 	private static final String TAG = "BluetoothSocket";
 
-	private final BluetoothDevice mRemoteDevice;
+	private/* final */BluetoothDevice mRemoteDevice;
 
 	final RfcommSocket mRfcommSocket;
 
@@ -85,12 +88,12 @@ public class BluetoothSocket implements Closeable {
 
 		// all native calls are guaranteed to immediately return after
 		// abortNative(), so this lock should immediatley acquire
-		//mLock.writeLock().lock();
+		// mLock.writeLock().lock();
 		try {
 			mClosed = true;
 			mRfcommSocket.destroy();
 		} finally {
-			//mLock.writeLock().unlock();
+			// mLock.writeLock().unlock();
 		}
 	}
 
@@ -172,7 +175,43 @@ public class BluetoothSocket implements Closeable {
 
 			BluetoothSocket socket = new BluetoothSocket(null, null);
 			RfcommSocket tmp = socket.mRfcommSocket;
+
+			// SocketからRemoteDeviceとれないので接続前と接続後で増えてるやつをとる.
+			IBluetoothDevice service = IBluetoothDeviceLocator.get();
+
+			Set<String> conns = new HashSet<String>();
+
+			try {
+
+				for (String s : service.listAclConnections()) {
+
+					conns.add(s);
+				}
+			} catch (RemoteException e) {
+			}
+
 			mRfcommSocket.accept(tmp, -1);
+
+			try {
+
+				for (String s : service.listAclConnections()) {
+
+					if (!conns.contains(s)) {
+
+						socket.mRemoteDevice = new BluetoothDevice(s);
+
+						break;
+					}
+				}
+				
+				if(socket.mRemoteDevice == null){
+					
+					//適当に最初のを使うしかない.
+					String addr = conns.iterator().next();
+					socket.mRemoteDevice = new BluetoothDevice(addr);
+				}
+			} catch (RemoteException e) {
+			}
 
 			return socket;
 		} finally {
