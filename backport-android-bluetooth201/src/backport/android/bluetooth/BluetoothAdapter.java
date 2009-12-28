@@ -16,7 +16,6 @@ public class BluetoothAdapter {
 
 	private static final String TAG = "BluetoothAdapter";
 
-	static final int START_CHANNEL = 30;
 
 	/**
 	 * Sentinel error value for this class. Guaranteed to not equal any other
@@ -482,7 +481,9 @@ public class BluetoothAdapter {
 			// errno = socket.mSocket.bindListen();
 
 			// サービスレコードの登録ができないため、UUIDからチャンネルを決定します.
-			channel = UUIDHelper.toUUID16(uuid) & START_CHANNEL;
+			// と思ったけどeclairとうまくつながらないので、eclairのデフォルトを使用.
+			channel = UUIDHelper.toUUID16(uuid) & BluetoothSocket.DEFAULT_CHANNEL;
+			//channel = BluetoothSocket.DEFAULT_CHANNEL;
 
 			boolean bind = socket.mSocket.mRfcommSocket.bind(null, channel);
 			errno = bind ? 0 : BluetoothSocket.EADDRINUSE;

@@ -19,6 +19,7 @@
 
 		<jar destfile="backport-android-bluetooth2.jar">
 			<fileset dir="bin" includes="**/backport/**/*.class" excludes="**/com/*.class,**/R.class,**/R$*.class"/>
+			<fileset dir="src" includes="**/backport/**/*.java" excludes="**/com/*.java"/>
 		</jar>
 	</target>
 

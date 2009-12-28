@@ -4,7 +4,6 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -18,6 +17,8 @@ import android.util.Log;
 
 public class BluetoothSocket implements Closeable {
 
+	static final int DEFAULT_CHANNEL = 30;
+	
 	static final int EBADFD = 77;
 	static final int EADDRINUSE = 98;
 
@@ -278,7 +279,8 @@ public class BluetoothSocket implements Closeable {
 			}
 			if (mChannel < 1) {
 
-				mChannel = uuid16 & BluetoothAdapter.START_CHANNEL;
+				mChannel = uuid16 & DEFAULT_CHANNEL;
+				//mChannel = DEFAULT_CHANNEL;
 			}
 			// if (mChannel < 1)
 			// throw new IOException("Service discovery failed");
