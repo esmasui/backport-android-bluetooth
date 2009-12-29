@@ -481,8 +481,9 @@ public class BluetoothAdapter {
 			// errno = socket.mSocket.bindListen();
 
 			// サービスレコードの登録ができないため、UUIDからチャンネルを決定します.
-			// と思ったけどeclairとうまくつながらないので、eclairのデフォルトを使用.
-			channel = UUIDHelper.toUUID16(uuid) & BluetoothSocket.DEFAULT_CHANNEL;
+			//channel = UUIDHelper.toUUID16(uuid) & BluetoothSocket.DEFAULT_CHANNEL;
+			channel = 1;
+			
 			//channel = BluetoothSocket.DEFAULT_CHANNEL;
 
 			boolean bind = socket.mSocket.mRfcommSocket.bind(null, channel);

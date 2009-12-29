@@ -279,7 +279,8 @@ public class BluetoothSocket implements Closeable {
 			}
 			if (mChannel < 1) {
 
-				mChannel = uuid16 & DEFAULT_CHANNEL;
+				//mChannel = uuid16 & DEFAULT_CHANNEL;
+				mChannel = 1;
 				//mChannel = DEFAULT_CHANNEL;
 			}
 			// if (mChannel < 1)
