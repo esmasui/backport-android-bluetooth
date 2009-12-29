@@ -75,7 +75,7 @@ public class RequestDiscoverabilityActivity extends RequestPermissionActivity {
 
 									public void run() {
 
-										setResult(RESULT_OK);
+										setResult(120);
 										finish();
 									}
 								});
