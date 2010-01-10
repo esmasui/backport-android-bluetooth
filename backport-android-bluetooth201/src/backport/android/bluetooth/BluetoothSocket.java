@@ -192,19 +192,42 @@ public class BluetoothSocket implements Closeable {
 			if (mClosed) {
 				throw new IOException("socket closed");
 			}
-
-			BluetoothSocket socket = new BluetoothSocket(null, null);
-			RfcommSocket tmp = socket.mRfcommSocket;
-
-			mRfcommSocket.accept(tmp, -1);
-
-			String addr = obtainAddress(tmp);
-			socket.mRemoteDevice = new BluetoothDevice(addr);
-
-			return socket;
 		} finally {
 			mLock.readLock().unlock();
 		}
+
+		BluetoothSocket socket = new BluetoothSocket(null, null);
+		RfcommSocket tmp = socket.mRfcommSocket;
+
+		// なぜか-1(infinity)を指定すると、closeできないのでループでinfinityな感じにする.
+		int tmpTimeout = (timeout > -1) ? timeout : 500;
+
+		for (;;) {
+			mRfcommSocket.accept(tmp, tmpTimeout);
+
+			if (timeout > -1) {
+				break;
+			}
+
+			mLock.readLock().lock();
+			try {
+				if (mClosed) {
+					return null;
+				}
+
+			} finally {
+				mLock.readLock().unlock();
+			}
+
+			if (tmp.isConnected()) {
+				break;
+			}
+		}
+
+		String addr = obtainAddress(tmp);
+		socket.mRemoteDevice = new BluetoothDevice(addr);
+
+		return socket;
 	}
 
 	/**
