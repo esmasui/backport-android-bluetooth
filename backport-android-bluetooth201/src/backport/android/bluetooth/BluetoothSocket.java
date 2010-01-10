@@ -4,8 +4,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashSet;
-import java.util.Set;
+import java.lang.reflect.Field;
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -18,13 +17,33 @@ import android.util.Log;
 public class BluetoothSocket implements Closeable {
 
 	static final int DEFAULT_CHANNEL = 30;
-	
+
 	static final int EBADFD = 77;
 	static final int EADDRINUSE = 98;
 
 	static final int MAX_RFCOMM_CHANNEL = 30;
 
 	private static final String TAG = "BluetoothSocket";
+
+	private static final Field M_ADDRESS_FIELD;
+
+	static {
+
+		Field fld = null;
+
+		try {
+			fld = RfcommSocket.class.getDeclaredField("mAddress");
+
+			if (!fld.isAccessible()) {
+				fld.setAccessible(true);
+			}
+
+		} catch (SecurityException e) {
+		} catch (NoSuchFieldException e) {
+		}
+
+		M_ADDRESS_FIELD = fld;
+	}
 
 	private/* final */BluetoothDevice mRemoteDevice;
 
@@ -177,42 +196,10 @@ public class BluetoothSocket implements Closeable {
 			BluetoothSocket socket = new BluetoothSocket(null, null);
 			RfcommSocket tmp = socket.mRfcommSocket;
 
-			// SocketからRemoteDeviceとれないので接続前と接続後で増えてるやつをとる.
-			IBluetoothDevice service = IBluetoothDeviceLocator.get();
-
-			Set<String> conns = new HashSet<String>();
-
-			try {
-
-				for (String s : service.listAclConnections()) {
-
-					conns.add(s);
-				}
-			} catch (RemoteException e) {
-			}
-
 			mRfcommSocket.accept(tmp, -1);
 
-			try {
-
-				for (String s : service.listAclConnections()) {
-
-					if (!conns.contains(s)) {
-
-						socket.mRemoteDevice = new BluetoothDevice(s);
-
-						break;
-					}
-				}
-				
-				if(socket.mRemoteDevice == null){
-					
-					//適当に最初のを使うしかない.
-					String addr = conns.iterator().next();
-					socket.mRemoteDevice = new BluetoothDevice(addr);
-				}
-			} catch (RemoteException e) {
-			}
+			String addr = obtainAddress(tmp);
+			socket.mRemoteDevice = new BluetoothDevice(addr);
 
 			return socket;
 		} finally {
@@ -279,9 +266,9 @@ public class BluetoothSocket implements Closeable {
 			}
 			if (mChannel < 1) {
 
-				//mChannel = uuid16 & DEFAULT_CHANNEL;
+				// mChannel = uuid16 & DEFAULT_CHANNEL;
 				mChannel = 1;
-				//mChannel = DEFAULT_CHANNEL;
+				// mChannel = DEFAULT_CHANNEL;
 			}
 			// if (mChannel < 1)
 			// throw new IOException("Service discovery failed");
@@ -312,6 +299,18 @@ public class BluetoothSocket implements Closeable {
 				notifyAll(); // unblock
 			}
 		}
+	}
+
+	private String obtainAddress(RfcommSocket rfcommSocket) {
+		String addr = null;
+
+		try {
+			addr = (String) M_ADDRESS_FIELD.get(rfcommSocket);
+		} catch (IllegalArgumentException e) {
+		} catch (IllegalAccessException e) {
+		}
+
+		return addr;
 	}
 
 }
