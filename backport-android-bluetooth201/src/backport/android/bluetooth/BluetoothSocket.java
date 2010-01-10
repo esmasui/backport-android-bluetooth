@@ -101,19 +101,34 @@ public class BluetoothSocket implements Closeable {
 			if (mSdp != null) {
 				mSdp.cancel();
 			}
-			mRfcommSocket.shutdown();
+
+			try {
+				mRfcommSocket.shutdownInput();
+			} catch (IOException e) {
+			}
+
+			try {
+				mRfcommSocket.shutdownOutput();
+			} catch (IOException e) {
+			}
+
+			try {
+				mRfcommSocket.shutdown();
+			} catch (IOException e) {
+			}
+
 		} finally {
 			mLock.readLock().unlock();
 		}
 
 		// all native calls are guaranteed to immediately return after
 		// abortNative(), so this lock should immediatley acquire
-		// mLock.writeLock().lock();
+		mLock.writeLock().lock();
 		try {
 			mClosed = true;
 			mRfcommSocket.destroy();
 		} finally {
-			// mLock.writeLock().unlock();
+			mLock.writeLock().unlock();
 		}
 	}
 
