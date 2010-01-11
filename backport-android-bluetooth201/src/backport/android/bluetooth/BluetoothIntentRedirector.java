@@ -47,23 +47,19 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 	private static final String BLUETOOTH_PERM = android.Manifest.permission.BLUETOOTH;
 
 	private static interface Converter {
-
 		boolean convertIntent(Intent src, Intent dest);
 	}
 
 	private static abstract class ConverterTemplate implements Converter {
 
 		public final boolean convertIntent(Intent src, Intent dest) {
-
 			String action = src.getAction();
 
 			if (!hasResponsibility(action)) {
-
 				return false;
 			}
 
 			convertIntentInternal(src, dest);
-
 			return true;
 		}
 
@@ -72,7 +68,6 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 		protected abstract String getAction();
 
 		protected void convertIntentInternal(Intent src, Intent dest) {
-
 			String action = getAction();
 			dest.setAction(action);
 		}
@@ -83,13 +78,11 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 		@Override
 		protected boolean hasResponsibility(String action) {
-
 			return action.equals(BluetoothIntent.DISCOVERY_COMPLETED_ACTION);
 		}
 
 		@Override
 		protected String getAction() {
-
 			return BluetoothAdapter.ACTION_DISCOVERY_FINISHED;
 		}
 	}
@@ -99,13 +92,11 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 		@Override
 		protected boolean hasResponsibility(String action) {
-
 			return action.equals(BluetoothIntent.DISCOVERY_STARTED_ACTION);
 		}
 
 		@Override
 		protected String getAction() {
-
 			return BluetoothAdapter.ACTION_DISCOVERY_STARTED;
 		}
 	}
@@ -115,19 +106,16 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 		@Override
 		protected boolean hasResponsibility(String action) {
-
 			return action.equals(BluetoothIntent.NAME_CHANGED_ACTION);
 		}
 
 		@Override
 		protected String getAction() {
-
 			return BluetoothAdapter.ACTION_LOCAL_NAME_CHANGED;
 		}
 
 		@Override
 		protected void convertIntentInternal(Intent src, Intent dest) {
-
 			super.convertIntentInternal(src, dest);
 			String name = src.getStringExtra(BluetoothIntent.NAME);
 			dest.putExtra(BluetoothAdapter.EXTRA_LOCAL_NAME, name);
@@ -139,19 +127,16 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 		@Override
 		protected boolean hasResponsibility(String action) {
-
 			return action.equals(BluetoothIntent.SCAN_MODE_CHANGED_ACTION);
 		}
 
 		@Override
 		protected String getAction() {
-
 			return BluetoothAdapter.ACTION_SCAN_MODE_CHANGED;
 		}
 
 		@Override
 		protected void convertIntentInternal(Intent src, Intent dest) {
-
 			super.convertIntentInternal(src, dest);
 			int scanMode = src.getIntExtra(BluetoothIntent.SCAN_MODE,
 					BluetoothAdapter.ERROR);
@@ -163,20 +148,14 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 		}
 
 		private int convertScanMode(int scanMode) {
-
 			switch (scanMode) {
-
 			case SCAN_MODE_NONE:
-
 				return BluetoothAdapter.SCAN_MODE_NONE;
 			case SCAN_MODE_CONNECTABLE:
-
 				return BluetoothAdapter.SCAN_MODE_CONNECTABLE;
 			case SCAN_MODE_CONNECTABLE_DISCOVERABLE:
-
 				return BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE;
 			}
-
 			return BluetoothAdapter.ERROR;
 		}
 	}
@@ -185,20 +164,17 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 		@Override
 		protected boolean hasResponsibility(String action) {
-
 			return action
 					.equals(BluetoothIntent.BLUETOOTH_STATE_CHANGED_ACTION);
 		}
 
 		@Override
 		protected String getAction() {
-
 			return BluetoothAdapter.ACTION_STATE_CHANGED;
 		}
 
 		@Override
 		protected void convertIntentInternal(Intent src, Intent dest) {
-
 			super.convertIntentInternal(src, dest);
 			int state = src.getIntExtra(BluetoothIntent.BLUETOOTH_STATE,
 					BluetoothAdapter.ERROR);
@@ -212,23 +188,16 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 		}
 
 		private int convertState(int state) {
-
 			switch (state) {
-
 			case BLUETOOTH_STATE_TURNING_OFF:
-
 				return BluetoothAdapter.STATE_TURNING_OFF;
 			case BLUETOOTH_STATE_OFF:
-
 				return BluetoothAdapter.STATE_OFF;
 			case BLUETOOTH_STATE_TURNING_ON:
-
 				return BluetoothAdapter.STATE_TURNING_ON;
 			case BLUETOOTH_STATE_ON:
-
 				return BluetoothAdapter.STATE_ON;
 			}
-
 			return BluetoothAdapter.ERROR;
 		}
 	}
@@ -237,20 +206,17 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 		@Override
 		protected boolean hasResponsibility(String action) {
-
 			return action
 					.equals(BluetoothIntent.REMOTE_DEVICE_CONNECTED_ACTION);
 		}
 
 		@Override
 		protected String getAction() {
-
 			return BluetoothDevice.ACTION_ACL_CONNECTED;
 		}
 
 		@Override
 		protected void convertIntentInternal(Intent src, Intent dest) {
-
 			super.convertIntentInternal(src, dest);
 			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
 			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
@@ -264,20 +230,17 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 		@Override
 		protected boolean hasResponsibility(String action) {
-
 			return action
 					.equals(BluetoothIntent.REMOTE_DEVICE_DISCONNECTED_ACTION);
 		}
 
 		@Override
 		protected String getAction() {
-
 			return BluetoothDevice.ACTION_ACL_DISCONNECTED;
 		}
 
 		@Override
 		protected void convertIntentInternal(Intent src, Intent dest) {
-
 			super.convertIntentInternal(src, dest);
 			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
 			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
@@ -291,20 +254,17 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 		@Override
 		protected boolean hasResponsibility(String action) {
-
 			return action
 					.equals(BluetoothIntent.REMOTE_DEVICE_DISCONNECT_REQUESTED_ACTION);
 		}
 
 		@Override
 		protected String getAction() {
-
 			return BluetoothDevice.ACTION_ACL_DISCONNECT_REQUESTED;
 		}
 
 		@Override
 		protected void convertIntentInternal(Intent src, Intent dest) {
-
 			super.convertIntentInternal(src, dest);
 			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
 			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
@@ -318,19 +278,16 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 		@Override
 		protected boolean hasResponsibility(String action) {
-
 			return action.equals(BluetoothIntent.BOND_STATE_CHANGED_ACTION);
 		}
 
 		@Override
 		protected String getAction() {
-
 			return BluetoothDevice.ACTION_BOND_STATE_CHANGED;
 		}
 
 		@Override
 		protected void convertIntentInternal(Intent src, Intent dest) {
-
 			super.convertIntentInternal(src, dest);
 			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
 			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
@@ -348,20 +305,14 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 		}
 
 		private int convertBondState(int bondState) {
-
 			switch (bondState) {
-
 			case BOND_NOT_BONDED:
-
 				return BluetoothDevice.BOND_NONE;
 			case BOND_BONDING:
-
 				return BluetoothDevice.BOND_BONDING;
 			case BOND_BONDED:
-
 				return BluetoothDevice.BOND_BONDED;
 			}
-
 			return BluetoothDevice.ERROR;
 		}
 	}
@@ -371,19 +322,16 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 		@Override
 		protected boolean hasResponsibility(String action) {
-
 			return action.equals(BluetoothIntent.PAIRING_REQUEST_ACTION);
 		}
 
 		@Override
 		protected String getAction() {
-
 			return BluetoothDevice.ACTION_BOND_STATE_CHANGED;
 		}
 
 		@Override
 		protected void convertIntentInternal(Intent src, Intent dest) {
-
 			super.convertIntentInternal(src, dest);
 			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
 			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
@@ -401,19 +349,16 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 		@Override
 		protected boolean hasResponsibility(String action) {
-
 			return action.equals(BluetoothIntent.PAIRING_CANCEL_ACTION);
 		}
 
 		@Override
 		protected String getAction() {
-
 			return BluetoothDevice.ACTION_BOND_STATE_CHANGED;
 		}
 
 		@Override
 		protected void convertIntentInternal(Intent src, Intent dest) {
-
 			super.convertIntentInternal(src, dest);
 			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
 			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
@@ -430,20 +375,17 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 		@Override
 		protected boolean hasResponsibility(String action) {
-
 			return action
 					.equals(BluetoothIntent.REMOTE_DEVICE_CLASS_UPDATED_ACTION);
 		}
 
 		@Override
 		protected String getAction() {
-
 			return BluetoothDevice.ACTION_CLASS_CHANGED;
 		}
 
 		@Override
 		protected void convertIntentInternal(Intent src, Intent dest) {
-
 			super.convertIntentInternal(src, dest);
 			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
 			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
@@ -459,19 +401,16 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 		@Override
 		protected boolean hasResponsibility(String action) {
-
 			return action.equals(BluetoothIntent.REMOTE_DEVICE_FOUND_ACTION);
 		}
 
 		@Override
 		protected String getAction() {
-
 			return BluetoothDevice.ACTION_FOUND;
 		}
 
 		@Override
 		protected void convertIntentInternal(Intent src, Intent dest) {
-
 			super.convertIntentInternal(src, dest);
 			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
 			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
@@ -489,19 +428,16 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 		@Override
 		protected boolean hasResponsibility(String action) {
-
 			return action.equals(BluetoothIntent.REMOTE_NAME_UPDATED_ACTION);
 		}
 
 		@Override
 		protected String getAction() {
-
 			return BluetoothDevice.ACTION_NAME_CHANGED;
 		}
 
 		@Override
 		protected void convertIntentInternal(Intent src, Intent dest) {
-
 			super.convertIntentInternal(src, dest);
 			String address = src.getStringExtra(BluetoothIntent.ADDRESS);
 			BluetoothDevice device = BluetoothAdapter.getDefaultAdapter()
@@ -541,24 +477,25 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-
 		Log.d(TAG, "receive:" + intent.toString());
-
 		Intent convertedIntent = new Intent();
 
 		for (int i = 0, size = CONVERTERS.length; i < size; ++i) {
-
 			Converter converter = CONVERTERS[i];
 			boolean converted = converter
 					.convertIntent(intent, convertedIntent);
 
 			if (converted) {
 
+				String pkg = BackportProperties.getPackageName();
+				
+				if (pkg != null) {
+					convertedIntent.setPackage(pkg);
+				}
+				
 				// context.sendBroadcast(convertedIntent, BLUETOOTH_PERM);
 				context.sendBroadcast(convertedIntent);
-
 				Log.d(TAG, "redirect:" + convertedIntent.toString());
-
 				return;
 			}
 		}

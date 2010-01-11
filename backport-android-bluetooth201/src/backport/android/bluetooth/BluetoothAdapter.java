@@ -105,7 +105,8 @@ public class BluetoothAdapter {
 	 * Requires {@link android.Manifest.permission#BLUETOOTH}
 	 */
 	// TODO @SdkConstant(SdkConstantType.ACTIVITY_INTENT_ACTION)
-	public static final String ACTION_REQUEST_DISCOVERABLE = "android.bluetooth.adapter.action.REQUEST_DISCOVERABLE";
+	//public static final String ACTION_REQUEST_DISCOVERABLE = "android.bluetooth.adapter.action.REQUEST_DISCOVERABLE";
+	public static final String ACTION_REQUEST_DISCOVERABLE = BackportProperties.getRequestDiscoverable();
 
 	/**
 	 * Used as an optional int extra field in
@@ -136,7 +137,8 @@ public class BluetoothAdapter {
 	 * Requires {@link android.Manifest.permission#BLUETOOTH}
 	 */
 	// TODO @SdkConstant(SdkConstantType.ACTIVITY_INTENT_ACTION)
-	public static final String ACTION_REQUEST_ENABLE = "android.bluetooth.adapter.action.REQUEST_ENABLE";
+	//public static final String ACTION_REQUEST_ENABLE = "android.bluetooth.adapter.action.REQUEST_ENABLE";
+	public static final String ACTION_REQUEST_ENABLE = BackportProperties.getRequestEnable();
 
 	/**
 	 * Broadcast Action: Indicates the Bluetooth scan mode of the local Adapter

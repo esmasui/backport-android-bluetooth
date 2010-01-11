@@ -27,7 +27,7 @@
 		<activity android:name=".RequestEnableActivity"
 			android:theme="@style/Theme.Transparent">
 			<intent-filter>
-				<action android:name="android.bluetooth.adapter.action.REQUEST_ENABLE" />
+				<action android:name="com.example.bluetooth.action.REQUEST_ENABLE" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
@@ -35,7 +35,7 @@
 		<activity android:name=".RequestDiscoverabilityActivity"
 			android:theme="@style/Theme.Transparent">
 			<intent-filter>
-				<action android:name="android.bluetooth.adapter.action.REQUEST_DISCOVERABLE" />
+				<action android:name="com.example.bluetooth.action.REQUEST_DISCOVERABLE" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
