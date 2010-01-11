@@ -12,8 +12,14 @@ abstract class BackportProperties {
 
 	private static Properties sProperties = obtainProperties();
 
-	public static final String getPackageName() {
-		return sProperties.getProperty("package_name");
+	public static final String getPermissionName() {
+		String v = sProperties.getProperty("permission_name");
+		
+		if (v != null) {
+			return v;
+		}
+
+		return android.Manifest.permission.BLUETOOTH; 
 	}
 
 	public static final String getRequestEnable() {

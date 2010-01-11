@@ -487,14 +487,8 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 			if (converted) {
 
-				String pkg = BackportProperties.getPackageName();
-				
-				if (pkg != null) {
-					convertedIntent.setPackage(pkg);
-				}
-				
-				// context.sendBroadcast(convertedIntent, BLUETOOTH_PERM);
-				context.sendBroadcast(convertedIntent);
+				context.sendBroadcast(convertedIntent, BackportProperties.getPermissionName());
+				//context.sendBroadcast(convertedIntent);
 				Log.d(TAG, "redirect:" + convertedIntent.toString());
 				return;
 			}
