@@ -16,7 +16,6 @@ public class BluetoothAdapter {
 
 	private static final String TAG = "BluetoothAdapter";
 
-
 	/**
 	 * Sentinel error value for this class. Guaranteed to not equal any other
 	 * integer constant in this class. Provided as a convenience for functions
@@ -105,8 +104,10 @@ public class BluetoothAdapter {
 	 * Requires {@link android.Manifest.permission#BLUETOOTH}
 	 */
 	// TODO @SdkConstant(SdkConstantType.ACTIVITY_INTENT_ACTION)
-	//public static final String ACTION_REQUEST_DISCOVERABLE = "android.bluetooth.adapter.action.REQUEST_DISCOVERABLE";
-	public static final String ACTION_REQUEST_DISCOVERABLE = BackportProperties.getRequestDiscoverable();
+	// public static final String ACTION_REQUEST_DISCOVERABLE =
+	// "android.bluetooth.adapter.action.REQUEST_DISCOVERABLE";
+	public static final String ACTION_REQUEST_DISCOVERABLE = BackportProperties
+			.getRequestDiscoverable();
 
 	/**
 	 * Used as an optional int extra field in
@@ -137,8 +138,10 @@ public class BluetoothAdapter {
 	 * Requires {@link android.Manifest.permission#BLUETOOTH}
 	 */
 	// TODO @SdkConstant(SdkConstantType.ACTIVITY_INTENT_ACTION)
-	//public static final String ACTION_REQUEST_ENABLE = "android.bluetooth.adapter.action.REQUEST_ENABLE";
-	public static final String ACTION_REQUEST_ENABLE = BackportProperties.getRequestEnable();
+	// public static final String ACTION_REQUEST_ENABLE =
+	// "android.bluetooth.adapter.action.REQUEST_ENABLE";
+	public static final String ACTION_REQUEST_ENABLE = BackportProperties
+			.getRequestEnable();
 
 	/**
 	 * Broadcast Action: Indicates the Bluetooth scan mode of the local Adapter
@@ -408,14 +411,14 @@ public class BluetoothAdapter {
 		try {
 
 			int scanMode = mService.getScanMode();
-			
+
 			switch (scanMode) {
 			case BluetoothIntentRedirector.SCAN_MODE_CONNECTABLE:
 
 				return BluetoothAdapter.SCAN_MODE_CONNECTABLE;
 
 			case BluetoothIntentRedirector.SCAN_MODE_CONNECTABLE_DISCOVERABLE:
-				
+
 				return BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE;
 
 			}
@@ -428,12 +431,21 @@ public class BluetoothAdapter {
 	}
 
 	public int getState() {
-
 		try {
-
-			return mService.getBluetoothState();
+			int state = mService.getBluetoothState();
+			switch (state) {
+			case BluetoothIntentRedirector.BLUETOOTH_STATE_OFF:
+				return STATE_OFF;
+			case BluetoothIntentRedirector.BLUETOOTH_STATE_ON:
+				return STATE_ON;
+			case BluetoothIntentRedirector.BLUETOOTH_STATE_TURNING_OFF:
+				return STATE_TURNING_OFF;
+			case BluetoothIntentRedirector.BLUETOOTH_STATE_TURNING_ON:
+				return STATE_TURNING_ON;
+			default:
+				return ERROR;
+			}
 		} catch (RemoteException e) {
-
 			Log.e(TAG, "", e);
 		}
 
@@ -483,10 +495,11 @@ public class BluetoothAdapter {
 			// errno = socket.mSocket.bindListen();
 
 			// サービスレコードの登録ができないため、UUIDからチャンネルを決定します.
-			//channel = UUIDHelper.toUUID16(uuid) & BluetoothSocket.DEFAULT_CHANNEL;
+			// channel = UUIDHelper.toUUID16(uuid) &
+			// BluetoothSocket.DEFAULT_CHANNEL;
 			channel = 1;
-			
-			//channel = BluetoothSocket.DEFAULT_CHANNEL;
+
+			// channel = BluetoothSocket.DEFAULT_CHANNEL;
 
 			boolean bind = socket.mSocket.mRfcommSocket.bind(null, channel);
 			errno = bind ? 0 : BluetoothSocket.EADDRINUSE;
