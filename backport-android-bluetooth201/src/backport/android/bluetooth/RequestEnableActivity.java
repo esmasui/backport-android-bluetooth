@@ -58,14 +58,12 @@ public class RequestEnableActivity extends RequestPermissionActivity {
 		builder.setMessage(msg);
 		builder.setPositiveButton("Yes", new OnClickListener() {
 
-			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				onButtonClicked();
 			}
 		});
 		builder.setNegativeButton("No", new OnClickListener() {
 
-			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				finish();
 			}

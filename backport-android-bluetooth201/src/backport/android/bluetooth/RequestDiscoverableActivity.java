@@ -68,14 +68,12 @@ public class RequestDiscoverableActivity extends RequestPermissionActivity {
 		builder.setMessage(msg);
 		builder.setPositiveButton("Yes", new OnClickListener() {
 
-			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				onButtonClicked(duration);
 			}
 		});
 		builder.setNegativeButton("No", new OnClickListener() {
 
-			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				finish();
 			}

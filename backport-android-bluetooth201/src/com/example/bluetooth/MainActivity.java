@@ -24,7 +24,6 @@ public class MainActivity extends Activity {
 		Button button = (Button) findViewById(R.id.button_chat);
 		button.setOnClickListener(new OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				onBluetoothChatButtonClick(v);
 			}
