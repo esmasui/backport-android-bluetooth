@@ -3,14 +3,4 @@
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:gravity="center_vertical">
 
-	<TextView android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:text="@string/permission_request"
-		android:textSize="22dip" android:gravity="center_horizontal" />
-
-
-	<Button android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:text="@string/discoverability_request"
-		android:textSize="24dip" android:gravity="center_horizontal"
-		android:focusable="true" android:clickable="true" android:onClick="onButtonClicked" />
-
 </LinearLayout>

@@ -16,35 +16,66 @@
 
 package backport.android.bluetooth;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.view.WindowManager;
 
 public class RequestEnableActivity extends RequestPermissionActivity {
 
-	private BluetoothAdapter mLocalDevice = BluetoothAdapter.getDefaultAdapter();
+	private BluetoothAdapter mLocalDevice;
 
 	private Handler mHandler = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-
 		super.onCreate(savedInstanceState);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
-				WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
 		setContentView(R.layout.enable);
-
+		mLocalDevice = BluetoothAdapter.getDefaultAdapter();
 		setResult(RESULT_CANCELED);
 
 		if (mLocalDevice.isEnabled()) {
-
 			setResult(RESULT_OK);
 			finish();
+			return;
 		}
+		
+		AlertDialog dialog = createDialog();
+		dialog.show();
 	}
 
-	public void onButtonClicked(View view) {
+	AlertDialog createDialog() {
+		Builder builder = new AlertDialog.Builder(this);
+		builder.setIcon(android.R.drawable.ic_dialog_info);
+		builder.setTitle("Bluetooth permission request");
+		StringBuilder b = new StringBuilder();
+		b.append("An application on your phone");
+		b.append(" is requesting permission to tun on Bluetooth.");
+		b.append(" Do you want to do this?");
+		String msg = b.toString();
+		builder.setMessage(msg);
+		builder.setPositiveButton("Yes", new OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				onButtonClicked();
+			}
+		});
+		builder.setNegativeButton("No", new OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				finish();
+			}
+		});
+
+		AlertDialog dialog = builder.create();
+		return dialog;
+	}
+
+	private void onButtonClicked() {
 
 		indeterminate(this, mHandler, "Turning on Bluetooth...",
 				new Runnable() {
@@ -52,13 +83,10 @@ public class RequestEnableActivity extends RequestPermissionActivity {
 					public void run() {
 
 						for (int i = 0; i < 100; ++i) {
-
 							if (mLocalDevice.isEnabled()) {
-
 								mHandler.post(new Runnable() {
 
 									public void run() {
-
 										setResult(RESULT_OK);
 										finish();
 									}
@@ -68,11 +96,8 @@ public class RequestEnableActivity extends RequestPermissionActivity {
 							}
 
 							try {
-
 								Thread.sleep(100);
 							} catch (InterruptedException e) {
-
-								// nop.
 							}
 						}
 					}

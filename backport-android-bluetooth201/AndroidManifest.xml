@@ -6,26 +6,28 @@
 		android:debuggable="true">
 
 		<!-- sample activities -->
-		<activity android:name="com.example.bluetooth.MainActivity" android:label="@string/app_name">
+		<activity android:name="com.example.bluetooth.MainActivity"
+			android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
+
 		<!-- bluetooth chat -->
-        <activity android:name="com.example.bluetooth.BluetoothChat"
-                  android:label="@string/bluetooth_chat_app_name"
-                  android:configChanges="orientation|keyboardHidden" />
-        <activity android:name="com.example.bluetooth.DeviceListActivity"
-                  android:label="@string/select_device"
-                  android:theme="@android:style/Theme.Dialog"
-                  android:configChanges="orientation|keyboardHidden" />
-		
+		<activity android:name="com.example.bluetooth.BluetoothChat"
+			android:label="@string/bluetooth_chat_app_name"
+			android:configChanges="orientation|keyboardHidden" />
+		<activity android:name="com.example.bluetooth.DeviceListActivity"
+			android:label="@string/select_device" android:theme="@android:style/Theme.Dialog"
+			android:configChanges="orientation|keyboardHidden" />
+
 		<!-- system activities -->
-		
+
 		<activity android:name=".RequestEnableActivity"
-			android:theme="@style/Theme.Transparent">
+			android:label="Bluetooth Permission Request" android:noHistory="true"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar"
+			android:configChanges="orientation|keyboardHidden">
 			<intent-filter>
 				<action android:name="com.example.bluetooth.action.REQUEST_ENABLE" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -33,13 +35,15 @@
 		</activity>
 
 		<activity android:name=".RequestDiscoverabilityActivity"
-			android:theme="@style/Theme.Transparent">
+			android:label="Bluetooth Permission Request" android:noHistory="true"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar"
+			android:configChanges="orientation|keyboardHidden">
 			<intent-filter>
 				<action android:name="com.example.bluetooth.action.REQUEST_DISCOVERABLE" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		
+
 		<!-- system receivers -->
 		<receiver android:name=".BluetoothIntentRedirector">
 			<intent-filter>
@@ -65,12 +69,10 @@
 				<!-- android.bluetooth.intent.action.REMOTE_NAME_FAILED -->
 			</intent-filter>
 		</receiver>
-				
+
 	</application>
 
-	<uses-sdk android:maxSdkVersion="4" />
-	<uses-sdk android:targetSdkVersion="4" />
-	<uses-sdk android:minSdkVersion="4" />
+	<uses-sdk android:minSdkVersion="3" />
 	<uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
 	<uses-permission android:name="com.example.bluetooth.PERMISSION_BLUETOOTH"></uses-permission>

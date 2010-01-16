@@ -1,11 +1,11 @@
 package com.example.bluetooth;
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import backport.android.bluetooth.BluetoothAdapter;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import backport.android.bluetooth.R;
 
 public class MainActivity extends Activity {
@@ -21,6 +21,13 @@ public class MainActivity extends Activity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		Button button = (Button) findViewById(R.id.button_chat);
+		button.setOnClickListener(new OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				onBluetoothChatButtonClick(v);
+			}
+		});
 	}
 }
