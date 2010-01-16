@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<string name="button_chat">Start Chat</string>
+	<string name="button_chat">Bluetooth Chat</string>
 	<string name="app_name">BackportOfBluetooth</string>
 	<string name="permission_request">Bluetooth permission request</string>
 
