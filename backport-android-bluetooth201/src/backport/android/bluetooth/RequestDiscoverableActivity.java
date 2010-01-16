@@ -26,7 +26,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.RemoteException;
 
-public class RequestDiscoverabilityActivity extends RequestPermissionActivity {
+public class RequestDiscoverableActivity extends RequestPermissionActivity {
 
 	private static final int DEFAULT_DURATION = 120;
 

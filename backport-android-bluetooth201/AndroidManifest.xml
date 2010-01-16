@@ -34,7 +34,7 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".RequestDiscoverabilityActivity"
+		<activity android:name=".RequestDiscoverableActivity"
 			android:label="Bluetooth Permission Request" android:noHistory="true"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar"
 			android:configChanges="orientation|keyboardHidden">
