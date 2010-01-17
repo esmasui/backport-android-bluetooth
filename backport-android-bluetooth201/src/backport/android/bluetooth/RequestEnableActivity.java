@@ -32,7 +32,6 @@ public class RequestEnableActivity extends RequestPermissionActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.enable);
 		mLocalDevice = BluetoothAdapter.getDefaultAdapter();
 		setResult(RESULT_CANCELED);
 
@@ -48,7 +47,8 @@ public class RequestEnableActivity extends RequestPermissionActivity {
 
 	AlertDialog createDialog() {
 		Builder builder = new AlertDialog.Builder(this);
-		builder.setIcon(android.R.drawable.ic_dialog_info);
+		int id = getDialogInfoIconId();
+		builder.setIcon(id);
 		builder.setTitle("Bluetooth permission request");
 		StringBuilder b = new StringBuilder();
 		b.append("An application on your phone");

@@ -16,6 +16,8 @@
 
 package backport.android.bluetooth;
 
+import java.lang.reflect.Field;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -107,6 +109,21 @@ abstract class RequestPermissionActivity extends Activity {
 				});
 			};
 		}.start();
+	}
+	
+	protected int getDialogInfoIconId(){
+		try {
+			Class<?> drawable = getClassLoader().loadClass("android.R.drawable");
+			Field field = drawable.getDeclaredField("ic_dialog_info");
+			Integer id = (Integer) field.get(null);
+			return id.intValue();
+		} catch (ClassNotFoundException e) {
+		} catch (SecurityException e) {
+		} catch (NoSuchFieldException e) {
+		} catch (IllegalArgumentException e) {
+		} catch (IllegalAccessException e) {
+		}
+		return android.R.drawable.ic_dialog_info;
 	}
 
 }

@@ -37,7 +37,6 @@ public class RequestDiscoverableActivity extends RequestPermissionActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.discoverability);
 		setResult(RESULT_CANCELED);
 		mLocalDevice = (IBluetoothDevice) IBluetoothDeviceLocator.get();
 		Intent intent = getIntent();
@@ -54,7 +53,8 @@ public class RequestDiscoverableActivity extends RequestPermissionActivity {
 
 	AlertDialog createDialog(final int duration) {
 		Builder builder = new AlertDialog.Builder(this);
-		builder.setIcon(android.R.drawable.ic_dialog_info);
+		int id = getDialogInfoIconId();
+		builder.setIcon(id);
 		builder.setTitle("Bluetooth permission request");
 		StringBuilder b = new StringBuilder();
 		b.append("An application on your phone");
