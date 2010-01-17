@@ -19,7 +19,7 @@ abstract class BackportProperties {
 			return v;
 		}
 
-		return android.Manifest.permission.BLUETOOTH; 
+		return null;
 	}
 
 	public static final String getRequestEnable() {
@@ -51,7 +51,7 @@ abstract class BackportProperties {
 					.e(TAG,
 							"can't locate backport_android_bluetooth.properties from classpath.");
 
-			return null;
+			return tmp;
 		}
 
 		try {

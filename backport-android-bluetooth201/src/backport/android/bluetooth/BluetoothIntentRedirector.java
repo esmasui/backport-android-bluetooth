@@ -44,7 +44,7 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 	public static final int SCAN_MODE_NONE = 0;
 	// private static final String BLUETOOTH_ADMIN_PERM =
 	// android.Manifest.permission.BLUETOOTH_ADMIN;
-	private static final String BLUETOOTH_PERM = android.Manifest.permission.BLUETOOTH;
+	//private static final String BLUETOOTH_PERM = android.Manifest.permission.BLUETOOTH;
 
 	private static interface Converter {
 		boolean convertIntent(Intent src, Intent dest);
@@ -487,8 +487,15 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 
 			if (converted) {
 
-				context.sendBroadcast(convertedIntent, BackportProperties.getPermissionName());
-				//context.sendBroadcast(convertedIntent);
+				String perm = BackportProperties.getPermissionName();
+
+				if (perm == null) {
+					context.sendBroadcast(convertedIntent);
+				} else {
+					context.sendBroadcast(convertedIntent, perm);
+				}
+
+				// context.sendBroadcast(convertedIntent);
 				Log.d(TAG, "redirect:" + convertedIntent.toString());
 				return;
 			}
