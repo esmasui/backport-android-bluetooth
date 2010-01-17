@@ -52,7 +52,7 @@ public class RequestEnableActivity extends RequestPermissionActivity {
 		builder.setTitle("Bluetooth permission request");
 		StringBuilder b = new StringBuilder();
 		b.append("An application on your phone");
-		b.append(" is requesting permission to tun on Bluetooth.");
+		b.append(" is requesting permission to turn on Bluetooth.");
 		b.append(" Do you want to do this?");
 		String msg = b.toString();
 		builder.setMessage(msg);
