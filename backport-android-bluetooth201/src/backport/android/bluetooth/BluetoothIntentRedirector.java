@@ -19,10 +19,12 @@ package backport.android.bluetooth;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 public class BluetoothIntentRedirector extends BroadcastReceiver {
@@ -42,9 +44,11 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 	public static final int SCAN_MODE_CONNECTABLE = 1;
 	public static final int SCAN_MODE_CONNECTABLE_DISCOVERABLE = 3;
 	public static final int SCAN_MODE_NONE = 0;
+
 	// private static final String BLUETOOTH_ADMIN_PERM =
 	// android.Manifest.permission.BLUETOOTH_ADMIN;
-	//private static final String BLUETOOTH_PERM = android.Manifest.permission.BLUETOOTH;
+	// private static final String BLUETOOTH_PERM =
+	// android.Manifest.permission.BLUETOOTH;
 
 	private static interface Converter {
 		boolean convertIntent(Intent src, Intent dest);
@@ -492,7 +496,20 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 				if (perm == null) {
 					context.sendBroadcast(convertedIntent);
 				} else {
-					context.sendBroadcast(convertedIntent, perm);
+
+					String sdk = Build.VERSION.SDK;
+					int sdkInt = 4;
+					try {
+						sdkInt = Integer.parseInt(sdk);
+					} catch (NumberFormatException e) {
+					}
+
+					if (sdkInt < 4) {
+						// パーミッション指定すると受け取れない。。。
+						context.sendBroadcast(convertedIntent);
+					} else {
+						context.sendBroadcast(convertedIntent, perm);
+					}
 				}
 
 				// context.sendBroadcast(convertedIntent);

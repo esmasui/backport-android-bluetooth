@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="backport.android.bluetooth" android:versionCode="2010011601"
-	android:versionName="2.1">
+	package="backport.android.bluetooth" android:versionCode="2010012401"
+	android:versionName="2.2">
 	<application android:icon="@drawable/icon" android:label="@string/app_name"
 		android:debuggable="true">
 
@@ -76,6 +76,5 @@
 	<uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
 	<uses-permission android:name="com.example.bluetooth.PERMISSION_BLUETOOTH"></uses-permission>
-
 
 </manifest> 
