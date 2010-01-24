@@ -28,7 +28,6 @@ interface IBluetoothDevice
     boolean isEnabled();
     int getBluetoothState();
     boolean enable();
-    boolean disable(boolean persistSetting);
 
     String getAddress();
     String getName();

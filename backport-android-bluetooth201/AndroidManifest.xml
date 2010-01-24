@@ -78,5 +78,4 @@
 	<uses-permission android:name="com.example.bluetooth.PERMISSION_BLUETOOTH"></uses-permission>
 
 
-
 </manifest> 
