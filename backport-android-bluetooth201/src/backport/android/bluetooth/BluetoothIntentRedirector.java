@@ -19,12 +19,10 @@ package backport.android.bluetooth;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
 
 public class BluetoothIntentRedirector extends BroadcastReceiver {
@@ -496,21 +494,13 @@ public class BluetoothIntentRedirector extends BroadcastReceiver {
 				if (perm == null) {
 					context.sendBroadcast(convertedIntent);
 				} else {
-
-					String sdk = Build.VERSION.SDK;
-					int sdkInt = 4;
-					try {
-						sdkInt = Integer.parseInt(sdk);
-					} catch (NumberFormatException e) {
-					}
-
-					if (sdkInt < 4) {
-						// パーミッション指定すると受け取れない。。。
-						context.sendBroadcast(convertedIntent);
-					} else {
-						context.sendBroadcast(convertedIntent, perm);
-					}
+					//context.sendBroadcast(convertedIntent, perm);
+					//TODO パーミッション設定するとうまくいかんな…
+					context.sendBroadcast(convertedIntent);
 				}
+				//01-26 00:48:23.044: DEBUG/BluetoothIntentRedirector(23295): receive:Intent { act=android.bluetooth.intent.action.DISCOVERY_COMPLETED cmp=backport.android.bluetooth/.BluetoothIntentRedirector }
+				//01-26 00:48:23.054: DEBUG/BluetoothIntentRedirector(23295): redirect:Intent { act=android.bluetooth.adapter.action.DISCOVERY_FINISHED }
+				//01-26 00:48:23.084: WARN/ActivityManager(79): Permission Denial: receiving Intent { act=android.bluetooth.adapter.action.DISCOVERY_FINISHED } to ProcessRecord{43408908 23295:backport.android.bluetooth/10026} (pid=23295, uid=10026) requires com.example.bluetooth.PERMISSION_BLUETOOTH due to sender backport.android.bluetooth (uid 10026)
 
 				// context.sendBroadcast(convertedIntent);
 				Log.d(TAG, "redirect:" + convertedIntent.toString());
