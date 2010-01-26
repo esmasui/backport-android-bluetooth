@@ -16,7 +16,7 @@ abstract class BackportProperties {
 		String v = sProperties.getProperty("permission_name");
 		
 		if (v != null) {
-			return v;
+			return v.trim();
 		}
 
 		return null;
@@ -26,7 +26,7 @@ abstract class BackportProperties {
 		String v = sProperties.getProperty("request_enable");
 
 		if (v != null) {
-			return v;
+			return v.trim();
 		}
 
 		return "android.bluetooth.adapter.action.REQUEST_ENABLE";
@@ -36,7 +36,7 @@ abstract class BackportProperties {
 		String v = sProperties.getProperty("request_discoverable");
 
 		if (v != null) {
-			return v;
+			return v.trim();
 		}
 
 		return "android.bluetooth.adapter.action.REQUEST_DISCOVERABLE";
