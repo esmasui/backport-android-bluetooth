@@ -246,9 +246,9 @@ public class BluetoothAdapter {
 	private static BluetoothAdapter sAdapter;
 
 	private final IBluetoothDevice mService;
-	
+
 	private final IBluetoothDeviceDelegate mDelegate;
-	
+
 	private final boolean mStandardImplementation;
 
 	private Handler mHandler = new Handler() {
@@ -308,10 +308,10 @@ public class BluetoothAdapter {
 
 		try {
 
-			if(mStandardImplementation){
+			if (mStandardImplementation) {
 				return mDelegate.disable(true);
 			}
-			
+
 			return mDelegate.disable();
 		} catch (RemoteException e) {
 
@@ -352,7 +352,12 @@ public class BluetoothAdapter {
 		try {
 
 			String[] bonds = mService.listBonds();
-			int size = bonds.length;
+			int size = 0;
+
+			if (bonds != null) {
+				size = bonds.length;
+			}
+
 			Set<BluetoothDevice> devices = new LinkedHashSet<BluetoothDevice>(
 					size);
 
@@ -379,8 +384,9 @@ public class BluetoothAdapter {
 		}
 
 		mService = service;
-		mDelegate = DelegateFactory.create(IBluetoothDeviceDelegate.class, mService);
-		
+		mDelegate = DelegateFactory.create(IBluetoothDeviceDelegate.class,
+				mService);
+
 		boolean standard = false;
 		try {
 			IBluetoothDevice.class.getDeclaredMethod("disable", boolean.class);
@@ -388,7 +394,7 @@ public class BluetoothAdapter {
 		} catch (SecurityException e) {
 		} catch (NoSuchMethodException e) {
 		}
-		
+
 		mStandardImplementation = standard;
 	}
 

@@ -3,7 +3,7 @@
 	package="backport.android.bluetooth" android:versionCode="2010012601"
 	android:versionName="2.2.1">
 	<application android:icon="@drawable/icon" android:label="@string/app_name"
-		android:debuggable="false">
+		android:debuggable="true">
 
 		<!-- sample activities -->
 		<activity android:name="com.example.bluetooth.MainActivity"
