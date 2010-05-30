@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2009, backport-android-bluetooth - http://code.google.com/p/backport-android-bluetooth/
  *
