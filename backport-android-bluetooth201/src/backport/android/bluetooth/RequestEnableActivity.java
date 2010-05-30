@@ -49,20 +49,16 @@ public class RequestEnableActivity extends RequestPermissionActivity {
 		Builder builder = new AlertDialog.Builder(this);
 		int id = getDialogInfoIconId();
 		builder.setIcon(id);
-		builder.setTitle("Bluetooth permission request");
-		StringBuilder b = new StringBuilder();
-		b.append("An application on your phone");
-		b.append(" is requesting permission to turn on Bluetooth.");
-		b.append(" Do you want to do this?");
-		String msg = b.toString();
-		builder.setMessage(msg);
-		builder.setPositiveButton("Yes", new OnClickListener() {
+		builder.setTitle(getString(R.string.dialog_title_permission_request));
+		builder.setMessage(getString(R.string.dialog_message_enabling_bluetooth));
+		
+		builder.setPositiveButton(android.R.string.yes, new OnClickListener() {
 
 			public void onClick(DialogInterface dialog, int which) {
 				onButtonClicked();
 			}
 		});
-		builder.setNegativeButton("No", new OnClickListener() {
+		builder.setNegativeButton(android.R.string.no, new OnClickListener() {
 
 			public void onClick(DialogInterface dialog, int which) {
 				finish();
@@ -75,7 +71,7 @@ public class RequestEnableActivity extends RequestPermissionActivity {
 
 	private void onButtonClicked() {
 
-		indeterminate(this, mHandler, "Turning on Bluetooth...",
+		indeterminate(this, mHandler, getString(R.string.dialog_message_enabling_bluetooth_progress),
 				new Runnable() {
 
 					public void run() {

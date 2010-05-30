@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="dialog_title_permission_request">Bluetooth許可リクエスト</string>
+	
+    <string name="dialog_message_enabling_bluetooth">アプリケーションがBluetoothをONにする許可をリクエストしています。許可しますか？</string>
+    <string name="dialog_message_enabling_bluetooth_progress">BluetoothをONにしています...</string>
+	<string name="dialog_message_disoverabling_bluetooth">アプリケーションが、BluetoothをONにしてこの端末を%d秒間他の端末から検出できるようにする許可をリクエストしています。許可しますか？</string>
+	
+</resources>

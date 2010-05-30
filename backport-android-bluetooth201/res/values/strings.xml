@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+	<string name="dialog_title_permission_request">Bluetooth permission request</string>
+	
+    <string name="dialog_message_enabling_bluetooth">An application on your phone is requesting permission to turn on Bluetooth. Do you want to do this?</string>
+    <string name="dialog_message_enabling_bluetooth_progress">Turning on Bluetooth...</string>
+
+	<string name="dialog_message_disoverabling_bluetooth">An application on your phone is requesting permission to turn on Bluetooth and to make your phone discoverable by other devices for %d seconds. Do you want to do this?</string>
+	
+
+
 	<string name="button_chat">Bluetooth Chat</string>
 	<string name="app_name">BackportOfBluetooth</string>
 	<string name="permission_request">Bluetooth permission request</string>
