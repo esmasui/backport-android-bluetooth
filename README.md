@@ -1,3 +1,5 @@
+## No longer maintained ##
+
 This package is the backport of android.bluetooth API, introduced in Android 2.0(or higher) to older Android platforms.
 
 ### IMPORTANT ###
